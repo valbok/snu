@@ -1,1 +1,3 @@
-# snu
+# Simple Izhikevich Neuronet
+
+
