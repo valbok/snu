@@ -21,7 +21,7 @@ ConnectomeParser::ConnectomeParser(const char* filename) throw()
 {
 }
 
-bool ConnectomeParser::parse(TConnections& result)
+bool ConnectomeParser::parse(TConnectome& result)
 {
     ifstream file(mFilename.c_str());
     if (!file.is_open())
