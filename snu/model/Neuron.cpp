@@ -40,6 +40,20 @@ void Neuron::connectTo(Neuron* target, float weight)
     mTargets.push_back({target, weight, prevSynCurrent, curSynCurrent});
 }
 
+static inline float getRndWeight()
+{
+    const float maxWeight = 100.0f;
+    const float minWeight = 50.0f;
+
+    return (rand() % ((int)(maxWeight - minWeight) * 10)) / 10.0f + minWeight;
+}
+
+void Neuron::connectTo(Neuron* target, bool isPositive)
+{
+    float w = getRndWeight();
+    connectTo(target, isPositive ? w : -w);
+}
+
 float Neuron::getPrevMembraneValue() const
 {
     // Some configurable params of Izhikevich neuron model.

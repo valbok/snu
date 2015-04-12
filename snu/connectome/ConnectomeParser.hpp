@@ -32,7 +32,7 @@ public:
     /**
      * Array of connections.
      */
-    typedef std::vector<TConnection> TConnections;
+    typedef std::vector<TConnection> TConnectome;
 
     /**
      * Default constructor.
@@ -42,10 +42,10 @@ public:
     /**
      * Parses connections.
      *
-     * @param Result container.
+     * @param[out] Result container.
      * @return True if at least one connection found.
      */
-    bool parse(TConnections& result);
+    bool parse(TConnectome& result);
 
 private:
 

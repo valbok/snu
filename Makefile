@@ -16,8 +16,9 @@ CXXFLAGS += -g -Wall -Wextra -std=c++0x -I.
 # created to the list.
 TARGETS = snu/model/tests/build/mempot \
 	snu/model/tests/build/memosc \
-	snu/connectome/tests/build/ConnectomeParserTest
-#ConnectomeParserTest
+	snu/connectome/tests/build/ConnectomeParserTest \
+	snu/model/tests/build/CElegansTest
+
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -80,5 +81,11 @@ snu/connectome/tests/build/%.o : snu/connectome/tests/%.cpp
 
 snu/connectome/tests/build/ConnectomeParserTest : snu/connectome/build/ConnectomeParser.o \
 	snu/connectome/tests/build/ConnectomeParserTest.o \
+	$(GTEST_DIR)/build/gtest_main.a
+	$(CXX) -lpthread $(CPPFLAGS) $(CXXFLAGS) -pthread $^ -o $@
+
+snu/model/tests/build/CElegansTest : snu/model/build/Neuron.o \
+	snu/connectome/build/ConnectomeParser.o snu/model/build/CElegans.o \
+	snu/model/tests/build/CElegansTest.o \
 	$(GTEST_DIR)/build/gtest_main.a
 	$(CXX) -lpthread $(CPPFLAGS) $(CXXFLAGS) -pthread $^ -o $@

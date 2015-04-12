@@ -42,6 +42,14 @@ public:
     void connectTo(Neuron* target, float weight);
 
     /**
+     * Connects to another neuron with connection weight.
+     *
+     * @param Target neuron.
+     * @param True if connection is positive and weight will be random.
+     */
+    void connectTo(Neuron* target, bool isPositive);
+
+    /**
      * Applies a spike to the neuron.
      */
     void spike();
