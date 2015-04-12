@@ -4,7 +4,6 @@
 ###
 
 GTEST_DIR = lib/gtest
-MKDIR_P = mkdir -p
 
 # Flags passed to the preprocessor.
 CPPFLAGS += -isystem $(GTEST_DIR)/include -I$(GTEST_DIR)
@@ -19,18 +18,12 @@ TARGETS = snu/model/tests/build/mempot \
 	snu/connectome/tests/build/ConnectomeParserTest \
 	snu/model/tests/build/CElegansTest
 
-
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
 GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
                 $(GTEST_DIR)/include/gtest/internal/*.h
 
-# House-keeping $(BUILD_DIR) targets.
-#.PHONY: directories
-
 all : $(TARGETS)
-
-directories :
 
 clean :
 	rm -f *.o
