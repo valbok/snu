@@ -31,7 +31,19 @@ public:
 
 protected:
 
+    /**
+     * Handles the movment.
+     */
     void drive();
+
+    /**
+     * Hangles only one neuron.
+     *
+     * @param Name of neuron.
+     * @param[out] What speed should be changed
+     * @param Should spikes be logged
+     */
+    void driveNeuron(const std::string& name, double& speed, bool log = false);
 
     /**
      * Worm's neuronet.

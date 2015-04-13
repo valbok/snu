@@ -68,9 +68,12 @@ public:
     bool hasNeuron(const std::string& name) const;
 
     /**
-     * Returns neurons by alias.
+     * Returns neuron by name
+     *
+     * @param Name of neuron
+     * @exception std::out_of_range in case if the name has not been found.
      */
-    bool getNeuronNames(const std::string& alias, std::vector<std::string>& result) const;
+    const Neuron& getNeuron(const std::string& name) const;
 
 private:
 
@@ -78,12 +81,6 @@ private:
      * Maps names to neurons.
      */
     std::map<std::string, Neuron> mNeurons;
-
-    /**
-     * Collects lists of aliases.
-     */
-    std::map<std::string, std::vector<std::string> > mNeuronAliases;
-
 };
 
 } // namespace NSnu
