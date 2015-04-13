@@ -16,12 +16,5 @@ TEST(CElegans, testNeurons)
     EXPECT_EQ(397, celegans.getNeuronsCount());
     EXPECT_EQ(true, celegans.hasNeuron("ADAL"));
     EXPECT_EQ(false, celegans.hasNeuron("UNKNOWN"));
-    try
-    {
-        celegans.getNeuron("UNKNOWN");
-    }
-    catch (std::out_of_range)
-    {
-    }
 }
 

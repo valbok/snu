@@ -16,7 +16,7 @@ namespace NSnu
 {
 
 /**
- * 
+ * Robot with worm's brain.
  */
 class SnuPuck : public Enki::EPuck
 {
@@ -30,6 +30,12 @@ public:
     void tick(float h);
 
 protected:
+
+    void drive();
+
+    /**
+     * Worm's neuronet.
+     */
     CElegans mBrain;
 };
 

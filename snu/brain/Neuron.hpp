@@ -67,6 +67,11 @@ public:
      */
     float getMembraneValue() const;
 
+    /**
+     * Checks if the neuron is active now. Means fired.
+     */
+    bool spiked() const;
+
 private:
 
     /**
@@ -155,6 +160,11 @@ private:
      * @see spike()
      */
     bool mForceSpike;
+
+    /**
+     * Defines if the neuron fired in current step.
+     */
+    bool mSpiked;
 
     /**
      * Callback function will be called if skipe occured.

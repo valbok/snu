@@ -18,7 +18,7 @@ CElegans::CElegans() throw()
     NConnectome::init(*this);
 }
 
-void CElegans::connect(std::string from, std::string to, int count)
+void CElegans::connect(const std::string& from, const std::string& to, int count)
 {
     if (mNeurons.find(from) == mNeurons.end())
     {
@@ -28,6 +28,52 @@ void CElegans::connect(std::string from, std::string to, int count)
     if (mNeurons.find(to) == mNeurons.end())
     {
         mNeurons.insert(std::make_pair(to, Neuron()));
+    }
+
+    std::string fromAlias = from.substr(0, 3);
+    if (mNeuronAliases.find(fromAlias) == mNeuronAliases.end())
+    {
+        mNeuronAliases.insert(std::make_pair(fromAlias, std::vector<std::string>()));
+    }
+
+    {
+        auto& fromAliases = mNeuronAliases.at(fromAlias);
+        bool found = false;
+        for (unsigned i = 0; i < fromAliases.size(); ++i)
+        {
+            if (fromAliases[i] == from)
+            {
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            fromAliases.push_back(from);
+        }
+    }
+
+    std::string toAlias = to.substr(0, 3);
+    if (mNeuronAliases.find(toAlias) == mNeuronAliases.end())
+    {
+        mNeuronAliases.insert(std::make_pair(toAlias, std::vector<std::string>()));
+    }
+
+    {
+        auto& toAliases = mNeuronAliases.at(toAlias);
+        bool found = false;
+        for (unsigned i = 0; i < toAliases.size(); ++i)
+        {
+            if (toAliases[i] == to)
+            {
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            toAliases.push_back(to);
+        }
     }
 
     bool isPositive = count >= 0;
@@ -52,7 +98,7 @@ void CElegans::tick(float h)
     }
 }
 
-bool CElegans::spike(std::string name)
+bool CElegans::spike(const std::string& name)
 {
     bool result = false;
     auto item = mNeurons.find(name);
@@ -65,14 +111,38 @@ bool CElegans::spike(std::string name)
     return result;
 }
 
-bool CElegans::hasNeuron(std::string name) const
+bool CElegans::hasNeuron(const std::string& name) const
 {
     return mNeurons.find(name) != mNeurons.end();
 }
 
-const Neuron& CElegans::getNeuron(std::string name) const
+bool CElegans::getNeuronNames(const std::string& alias, std::vector<std::string>& result) const
 {
-    return mNeurons.at(name);
+    bool found = false;
+    auto item = mNeuronAliases.find(alias);
+    if (item != mNeuronAliases.end())
+    {
+        for (unsigned i = 0; i < item->second.size(); ++i)
+        {
+            result.push_back(item->second[i]);
+        }
+
+        found = true;
+    }
+
+    return found;
+}
+
+bool CElegans::spiked(const std::string& name) const
+{
+    bool result = false;
+    auto item = mNeurons.find(name);
+    if (item != mNeurons.end())
+    {
+        result = item->second.spiked();
+    }
+
+    return result;
 }
 
 } // namespace NSnu

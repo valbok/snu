@@ -26,6 +26,7 @@ Neuron::Neuron(TCallback callback) throw()
     , mPrevAdditional(0)
     , mCurAdditional(0)
     , mForceSpike(false)
+    , mSpiked(false)
     , mCallback(callback)
 {
     // Max external current that applied to the neuron, pA
@@ -78,7 +79,7 @@ float Neuron::getPrevAdditionalValue() const
 bool Neuron::tick(float h)
 {
     const float spikeThreshold = 35.0f;
-    bool fired = false;
+    mSpiked = false;
 
     // If need to force the spike.
     // But this spike will be handled in next step
@@ -93,16 +94,15 @@ bool Neuron::tick(float h)
         mCurMembrane = mPrevMembrane + h * getPrevMembraneValue();
         mCurAdditional = mPrevAdditional + h * getPrevAdditionalValue();
 
-        fired = mPrevMembrane > spikeThreshold;
+        mSpiked = mPrevMembrane > spikeThreshold;
     }
 
     // Spike occured.
-    if (fired)
+    if (mSpiked)
     {
         const float resetMembraneTo = -40.0f;
         mCurMembrane = resetMembraneTo;
         mCurAdditional = mPrevAdditional + 100.0f;
-
         if (mCallback != 0)
         {
             mCallback(this);
@@ -120,12 +120,12 @@ bool Neuron::tick(float h)
     {
         STarget& target = mTargets.at(i);
 
-        target.mCurSynI = fired ? 1.0f : (target.mPrevSynI * expireCoeff);
+        target.mCurSynI = mSpiked ? 1.0f : (target.mPrevSynI * expireCoeff);
         target.mTarget->teach(target.mCurSynI * target.mWeight);
         target.mPrevSynI = target.mCurSynI;
     }
 
-    return fired;
+    return mSpiked;
 }
 
 void Neuron::spike()
@@ -141,6 +141,11 @@ void Neuron::teach(float value)
 float Neuron::getMembraneValue() const
 {
     return mCurMembrane;
+}
+
+bool Neuron::spiked() const
+{
+    return mSpiked;
 }
 
 } // namespace NSnu

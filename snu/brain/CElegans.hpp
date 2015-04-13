@@ -40,7 +40,7 @@ public:
      * @param Name of target neuron.
      * @param Count of synapses.
      */
-    inline void connect(std::string from, std::string to, int count);
+    inline void connect(const std::string& from, const std::string& to, int count);
 
     /**
      * Processes the time step for all neurons.
@@ -53,22 +53,24 @@ public:
      * Creates a spike on requested neuron.
      *
      * @param Name of a neuron.
-     * @return True if success.
+     * @return true If success.
      */
-    bool spike(std::string name);
+    bool spike(const std::string& name);
+
+    /**
+     * Checks if neuron just spiked.
+     */
+    bool spiked(const std::string& name) const;
 
     /**
      * Checks if requested neuron exists.
      */
-    bool hasNeuron(std::string name) const;
+    bool hasNeuron(const std::string& name) const;
 
     /**
-     * Returns neuron by name.
-     *
-     * @param Name of a neurom.
-     * @expection std::out_of_range in case if neuron has not been found.
+     * Returns neurons by alias.
      */
-    const Neuron& getNeuron(std::string name) const;
+    bool getNeuronNames(const std::string& alias, std::vector<std::string>& result) const;
 
 private:
 
@@ -76,6 +78,11 @@ private:
      * Maps names to neurons.
      */
     std::map<std::string, Neuron> mNeurons;
+
+    /**
+     * Collects lists of aliases.
+     */
+    std::map<std::string, std::vector<std::string> > mNeuronAliases;
 
 };
 
