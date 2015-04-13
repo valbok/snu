@@ -58,8 +58,9 @@ public:
      * Processes the neuron within time slice.
      *
      * @param Time step.
+     * @return True if spike occured.
      */
-    bool tick(float h = 0.5f);
+    bool tick(float h);
 
     /**
      * Returns membrane potential value of current neuron.

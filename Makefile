@@ -38,11 +38,11 @@ $(GTEST_DIR)/build/gtest-all.o : $(GTEST_SRCS_)
 	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c \
             $(GTEST_DIR)/src/gtest-all.cc -o $@
 
-$(GTEST_DIR)/build/gtest_main.o : $(GTEST_SRCS_)	
+$(GTEST_DIR)/build/gtest_main.o : $(GTEST_SRCS_)
 	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c \
             $(GTEST_DIR)/src/gtest_main.cc -o $@
 
-$(GTEST_DIR)/build/gtest.a : $(GTEST_DIR)/build/gtest-all.o	
+$(GTEST_DIR)/build/gtest.a : $(GTEST_DIR)/build/gtest-all.o
 	$(AR) $(ARFLAGS) $@ $^ -o $@
 
 $(GTEST_DIR)/build/gtest_main.a : $(GTEST_DIR)/build/gtest-all.o $(GTEST_DIR)/build/gtest_main.o
@@ -52,13 +52,13 @@ snu/build/%.o : snu/%.cpp
 	@mkdir -p $(@D)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
-snu/tests/build/%.o : snu/tests/%.cpp    
+snu/tests/build/%.o : snu/tests/%.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 snu/tests/build/mempot : snu/build/Neuron.o snu/tests/build/mempot.o
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
 
-snu/tests/build/memosc : snu/build/Neuron.o snu/tests/build/memosc.o 
+snu/tests/build/memosc : snu/build/Neuron.o snu/tests/build/memosc.o
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
 
 snu/tests/build/CElegansTest : snu/build/Neuron.o \

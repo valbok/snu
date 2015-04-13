@@ -44,5 +44,36 @@ unsigned CElegans::getNeuronsCount() const
     return mNeurons.size();
 }
 
+void CElegans::tick(float h)
+{
+    for (auto& item: mNeurons)
+    {
+        item.second.tick(h);
+    }
+}
+
+bool CElegans::spike(std::string name)
+{
+    bool result = false;
+    auto item = mNeurons.find(name);
+    if (item != mNeurons.end())
+    {
+        item->second.spike();
+        result = true;
+    }
+
+    return result;
+}
+
+bool CElegans::hasNeuron(std::string name) const
+{
+    return mNeurons.find(name) != mNeurons.end();
+}
+
+const Neuron& CElegans::getNeuron(std::string name) const
+{
+    return mNeurons.at(name);
+}
+
 } // namespace NSnu
 
