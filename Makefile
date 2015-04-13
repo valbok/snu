@@ -4,16 +4,20 @@
 ###
 
 GTEST_DIR = lib/gtest
+ENKI_DIR = lib/enki
 
 # Flags passed to the preprocessor.
-CPPFLAGS += -isystem $(GTEST_DIR)/include -I$(GTEST_DIR)
+CPPFLAGS += -isystem $(GTEST_DIR)/include -I$(GTEST_DIR) -I$(ENKI_DIR)
 
 # Flags passed to the C++ compiler.
 CXXFLAGS += -g -Wall -Wextra -std=c++0x -I.
 
 # All tests produced by this Makefile. Remember to add new tests you
 # created to the list.
-TARGETS = snu/brain/tests/build/mempot snu/brain/tests/build/memosc snu/brain/tests/build/CElegansTest
+TARGETS = snu/brain/tests/build/mempot \
+	snu/brain/tests/build/memosc \
+	snu/brain/tests/build/CElegansTest \
+	snu/robots/tests/build/SnuPuckTest
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -52,7 +56,16 @@ snu/brain/build/%.o : snu/brain/%.cpp
 	@mkdir -p $(@D)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
+snu/robots/build/%.o : snu/robots/%.cpp
+	@mkdir -p $(@D)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+
 snu/brain/tests/build/%.o : snu/brain/tests/%.cpp
+	@mkdir -p $(@D)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+
+snu/robots/tests/build/%.o : snu/robots/tests/%.cpp
+	@mkdir -p $(@D)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 snu/brain/tests/build/mempot : snu/brain/build/Neuron.o snu/brain/tests/build/mempot.o
@@ -64,5 +77,10 @@ snu/brain/tests/build/memosc : snu/brain/build/Neuron.o snu/brain/tests/build/me
 snu/brain/tests/build/CElegansTest : snu/brain/build/Neuron.o \
 	snu/brain/build/CElegans.o \
 	snu/brain/tests/build/CElegansTest.o \
+	$(GTEST_DIR)/build/gtest_main.a
+	$(CXX) -lpthread $(CPPFLAGS) $(CXXFLAGS) -pthread $^ -o $@
+
+snu/robots/tests/build/SnuPuckTest : snu/robots/build/SnuPuck.o \
+	snu/robots/tests/build/SnuPuckTest.o \
 	$(GTEST_DIR)/build/gtest_main.a
 	$(CXX) -lpthread $(CPPFLAGS) $(CXXFLAGS) -pthread $^ -o $@
