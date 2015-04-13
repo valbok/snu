@@ -13,10 +13,7 @@ CXXFLAGS += -g -Wall -Wextra -std=c++0x -I.
 
 # All tests produced by this Makefile. Remember to add new tests you
 # created to the list.
-TARGETS = snu/model/tests/build/mempot \
-	snu/model/tests/build/memosc \
-	snu/connectome/tests/build/ConnectomeParserTest \
-	snu/model/tests/build/CElegansTest
+TARGETS = snu/tests/build/mempot snu/tests/build/memosc snu/tests/build/CElegansTest
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -51,34 +48,21 @@ $(GTEST_DIR)/build/gtest.a : $(GTEST_DIR)/build/gtest-all.o
 $(GTEST_DIR)/build/gtest_main.a : $(GTEST_DIR)/build/gtest-all.o $(GTEST_DIR)/build/gtest_main.o
 	$(AR) $(ARFLAGS) $@ $^ -o $@
 
-snu/model/build/%.o : snu/model/%.cpp
+snu/build/%.o : snu/%.cpp
 	@mkdir -p $(@D)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
-snu/model/tests/build/%.o : snu/model/tests/%.cpp    
+snu/tests/build/%.o : snu/tests/%.cpp    
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
-snu/model/tests/build/mempot : snu/model/build/Neuron.o snu/model/tests/build/mempot.o
+snu/tests/build/mempot : snu/build/Neuron.o snu/tests/build/mempot.o
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
 
-snu/model/tests/build/memosc : snu/model/build/Neuron.o snu/model/tests/build/memosc.o 
+snu/tests/build/memosc : snu/build/Neuron.o snu/tests/build/memosc.o 
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
 
-snu/connectome/build/%.o : snu/connectome/%.cpp
-	@mkdir -p $(@D)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
-
-snu/connectome/tests/build/%.o : snu/connectome/tests/%.cpp
-	@mkdir -p $(@D)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
-
-snu/connectome/tests/build/ConnectomeParserTest : snu/connectome/build/ConnectomeParser.o \
-	snu/connectome/tests/build/ConnectomeParserTest.o \
-	$(GTEST_DIR)/build/gtest_main.a
-	$(CXX) -lpthread $(CPPFLAGS) $(CXXFLAGS) -pthread $^ -o $@
-
-snu/model/tests/build/CElegansTest : snu/model/build/Neuron.o \
-	snu/connectome/build/ConnectomeParser.o snu/model/build/CElegans.o \
-	snu/model/tests/build/CElegansTest.o \
+snu/tests/build/CElegansTest : snu/build/Neuron.o \
+	snu/build/CElegans.o \
+	snu/tests/build/CElegansTest.o \
 	$(GTEST_DIR)/build/gtest_main.a
 	$(CXX) -lpthread $(CPPFLAGS) $(CXXFLAGS) -pthread $^ -o $@

@@ -7,7 +7,7 @@
  * Creates few files with membrane potentials for visualization.
  */
 
-#include <snu/model/Neuron.hpp>
+#include <snu/Neuron.hpp>
 #include <iostream>
 #include <cstdlib>
 #include <fstream>

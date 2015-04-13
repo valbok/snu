@@ -11,8 +11,7 @@
 
 #include <map>
 #include <string>
-#include <snu/model/Neuron.hpp>
-#include <snu/connectome/ConnectomeParser.hpp>
+#include <snu/Neuron.hpp>
 
 namespace NSnu
 {
@@ -26,17 +25,13 @@ public:
 
     /**
      * Default constructor.
-     *
-     * @paramp Connectome of the worm.
      */
-    CElegans(const ConnectomeParser::TConnectome& connectome) throw();
+    CElegans() throw();
 
     /**
      * Returns count of submitted neurons.
      */
     unsigned getNeuronsCount() const;
-    
-private:
 
     /**
      * Connects neurons.
@@ -45,7 +40,9 @@ private:
      * @param Name of target neuron.
      * @param Count of synapses.
      */
-    void connect(std::string from, std::string to, int count);
+    inline void connect(std::string from, std::string to, int count);
+
+private:
 
     /**
      * Maps names to neurons.

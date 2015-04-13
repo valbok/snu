@@ -7,21 +7,15 @@
  */
 
 #include "CElegans.hpp"
+#include "connectome.hpp"
 #include <stdlib.h>
 
 namespace NSnu
 {
 
-CElegans::CElegans(const ConnectomeParser::TConnectome& connectome) throw()
+CElegans::CElegans() throw()
 {
-    for (unsigned i = 0; i < connectome.size(); ++i)
-    {
-        connect(
-            std::get<0>(connectome[i]), 
-            std::get<1>(connectome[i]), 
-            std::get<2>(connectome[i])
-        );
-    }
+    NConnectome::init(*this);
 }
 
 void CElegans::connect(std::string from, std::string to, int count)

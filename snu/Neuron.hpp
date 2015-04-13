@@ -120,7 +120,6 @@ private:
 
     /**
      * External current.
-     * @see spike()
      */
     float mExtI;
 
@@ -152,6 +151,7 @@ private:
 
     /**
      * Force defines if there is a spike on the neuron.
+     * @see spike()
      */
     bool mForceSpike;
 
