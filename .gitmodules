@@ -1,0 +1,3 @@
+[submodule "lib/enki"]
+	path = lib/enki
+	url = http://github.com/enki-community/enki

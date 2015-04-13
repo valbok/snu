@@ -23,7 +23,7 @@ GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
 all : $(TARGETS)
 
 clean :
-	rm -f *.o
+	find ./ -name "*.o" -exec rm -f {} \;
 
 # Usually you shouldn't tweak such internal variables, indicated by a
 # trailing _.
