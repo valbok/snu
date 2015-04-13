@@ -21,7 +21,10 @@ add_library(gtest
     lib/gtest/src/gtest_main.cc 
     lib/gtest/src/gtest-all.cc)
 
+add_subdirectory(lib/enki)
+
 add_subdirectory(snu/brain)
 add_subdirectory(snu/brain/tests)
 add_subdirectory(snu/robots)
 add_subdirectory(snu/robots/tests)
+add_subdirectory(viewer)
