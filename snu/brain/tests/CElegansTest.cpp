@@ -3,7 +3,7 @@
  * @license GNU GPL v2
  */
 
-#include <snu/CElegans.hpp>
+#include <snu/brain/CElegans.hpp>
 #include <gtest/gtest.h>
 #include <iostream>
 

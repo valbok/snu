@@ -3,7 +3,7 @@
  * @license GNU GPL v2
  */
 
-#include <snu/Neuron.hpp>
+#include <snu/brain/Neuron.hpp>
 #include <iostream>
 #include <cstdlib>
 #include <vector>

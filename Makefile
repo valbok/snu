@@ -13,7 +13,7 @@ CXXFLAGS += -g -Wall -Wextra -std=c++0x -I.
 
 # All tests produced by this Makefile. Remember to add new tests you
 # created to the list.
-TARGETS = snu/tests/build/mempot snu/tests/build/memosc snu/tests/build/CElegansTest
+TARGETS = snu/brain/tests/build/mempot snu/brain/tests/build/memosc snu/brain/tests/build/CElegansTest
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -48,21 +48,21 @@ $(GTEST_DIR)/build/gtest.a : $(GTEST_DIR)/build/gtest-all.o
 $(GTEST_DIR)/build/gtest_main.a : $(GTEST_DIR)/build/gtest-all.o $(GTEST_DIR)/build/gtest_main.o
 	$(AR) $(ARFLAGS) $@ $^ -o $@
 
-snu/build/%.o : snu/%.cpp
+snu/brain/build/%.o : snu/brain/%.cpp
 	@mkdir -p $(@D)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
-snu/tests/build/%.o : snu/tests/%.cpp
+snu/brain/tests/build/%.o : snu/brain/tests/%.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
-snu/tests/build/mempot : snu/build/Neuron.o snu/tests/build/mempot.o
+snu/brain/tests/build/mempot : snu/brain/build/Neuron.o snu/brain/tests/build/mempot.o
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
 
-snu/tests/build/memosc : snu/build/Neuron.o snu/tests/build/memosc.o
+snu/brain/tests/build/memosc : snu/brain/build/Neuron.o snu/brain/tests/build/memosc.o
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
 
-snu/tests/build/CElegansTest : snu/build/Neuron.o \
-	snu/build/CElegans.o \
-	snu/tests/build/CElegansTest.o \
+snu/brain/tests/build/CElegansTest : snu/brain/build/Neuron.o \
+	snu/brain/build/CElegans.o \
+	snu/brain/tests/build/CElegansTest.o \
 	$(GTEST_DIR)/build/gtest_main.a
 	$(CXX) -lpthread $(CPPFLAGS) $(CXXFLAGS) -pthread $^ -o $@

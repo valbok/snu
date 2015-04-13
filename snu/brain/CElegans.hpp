@@ -11,7 +11,7 @@
 
 #include <map>
 #include <string>
-#include <snu/Neuron.hpp>
+#include <snu/brain/Neuron.hpp>
 
 namespace NSnu
 {
