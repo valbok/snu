@@ -78,16 +78,10 @@ public:
     /**
      * Default constructor.
      *
-     * @param Callback function when spike fired.
+     * @param External current applied to the neuron. To activate neuron easily.
+     *        Neuron can be activated without stimulation.
      */
-    Neuron() throw();
-
-    /**
-     * Default constructor.
-     *
-     * @param
-     */
-    Neuron(float extI) throw();
+    Neuron(float extI = 0) throw();
 
     /**
      * Connects to another neuron with connection weight.

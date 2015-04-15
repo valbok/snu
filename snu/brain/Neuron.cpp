@@ -24,8 +24,8 @@ const float DEFAULT_MEMBRANE = -60.0f;
  */
 const float SPIKE_THRESHOLD = 35.0f;
 
-Neuron::Neuron() throw()
-    : mExtI(0)
+Neuron::Neuron(float extI) throw()
+    : mExtI(extI)
     , mSynI(0)
     , mPrevMembrane(DEFAULT_MEMBRANE)
     , mCurMembrane(DEFAULT_MEMBRANE)
@@ -34,15 +34,6 @@ Neuron::Neuron() throw()
     , mFired(false)
     , mPrevFired(false)
 {
-    // Max external current that applied to the neuron, pA.
-    const float extIMax = 40.0f;
-    mExtI = (rand() % (int) (extIMax * 10)) / 10.0f;
-}
-
-Neuron::Neuron(float extI) throw()
-    : Neuron()
-{
-    mExtI = extI;
 }
 
 void Neuron::connectTo(Neuron* target, float weight)
@@ -167,7 +158,6 @@ bool Neuron::teachSynWeight(unsigned axonId, unsigned curTarget, unsigned prevTa
     {
         target.weight += value;
     }
-
 
     return true;
 }

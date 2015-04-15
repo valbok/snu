@@ -52,6 +52,8 @@ int main()
             n1.spike();
         if (t % 500 == 0)
             n2.spike();
+        if (t % 1000 == 0)
+            n3.spike();
     }
 
     fn1.close();

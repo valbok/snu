@@ -193,6 +193,20 @@ TEST(Neuron, testTeachSynWeight_01_01)
     EXPECT_EQ(weight + 1, n1.getAxons()[0].weight);
 }
 
+TEST(Neuron, testTeachSynNegWeight_01_01)
+{
+    const float weight = -100.0f;
+    Neuron n1(EXT_I);
+    Neuron n2(EXT_I);
+    n1.connectTo(&n2, weight);
+
+    n1.spike();
+    n2.spike();
+    n1.tick(TIME_STEP);
+    n2.tick(TIME_STEP);
+    EXPECT_EQ(weight - 1, n1.getAxons()[0].weight);
+}
+
 TEST(Neuron, testTeachSynWeight_01_10)
 {
     const float weight = 100.0f;
@@ -355,4 +369,38 @@ TEST(Neuron, testTeachSynWeight_11_11)
     EXPECT_TRUE(n2.fired());
 
     EXPECT_EQ(weight + 1, n1.getAxons()[0].weight);
+}
+
+TEST(Neuron, testAutoSpikeWoExt)
+{
+    Neuron n1(0), n2(0);
+    n1.connectTo(&n2);
+
+    for (int i = 0; i < 1000000; ++i)
+    {
+        n1.tick(TIME_STEP);
+        n2.tick(TIME_STEP);
+        EXPECT_FALSE(n1.fired());
+        EXPECT_FALSE(n2.fired());
+    }
+}
+
+TEST(Neuron, testAutoSpikeWExt)
+{
+    Neuron n1(35), n2(20);
+    n1.connectTo(&n2);
+
+    bool foundSpike = false;
+    for (int i = 0; i < 10000; ++i)
+    {
+        n1.tick(TIME_STEP);
+        n2.spike();
+        n2.tick(TIME_STEP);
+        if (n1.fired())
+        {
+            foundSpike = true;
+        }
+    }
+
+    EXPECT_TRUE(foundSpike);
 }
