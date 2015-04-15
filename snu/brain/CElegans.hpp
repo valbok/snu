@@ -60,7 +60,7 @@ public:
     /**
      * Checks if neuron just spiked.
      */
-    bool spiked(const std::string& name) const;
+    bool fired(const std::string& name) const;
 
     /**
      * Checks if requested neuron exists.

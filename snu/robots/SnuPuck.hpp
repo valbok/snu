@@ -29,6 +29,11 @@ public:
      */
     void tick(float h);
 
+    bool frontTouched() const
+    {
+        return infraredSensor0.getDist() < 2 || infraredSensor7.getDist() < 2;
+    }
+
 protected:
 
     /**
@@ -43,7 +48,7 @@ protected:
      * @param[out] What speed should be changed
      * @param Should spikes be logged
      */
-    void driveNeuron(const std::string& name, double& speed, bool log = false);
+    void driveNeuron(const std::string& name, double& speed, bool log = true, bool positive = true);
 
     /**
      * Worm's neuronet.

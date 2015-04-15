@@ -9,6 +9,7 @@
 #include "Neuron.hpp"
 #include <cmath>
 #include <cstdlib>
+#include <iostream>
 
 namespace NSnu
 {
@@ -18,27 +19,44 @@ namespace NSnu
  */
 const float DEFAULT_MEMBRANE = -60.0f;
 
-Neuron::Neuron(TCallback callback) throw()
+/**
+ * Threshold of membrane potential to make a spike.
+ */
+const float SPIKE_THRESHOLD = 35.0f;
+
+Neuron::Neuron() throw()
     : mExtI(0)
     , mSynI(0)
     , mPrevMembrane(DEFAULT_MEMBRANE)
     , mCurMembrane(DEFAULT_MEMBRANE)
     , mPrevAdditional(0)
     , mCurAdditional(0)
-    , mForceSpike(false)
-    , mSpiked(false)
-    , mCallback(callback)
+    , mFired(false)
+    , mPrevFired(false)
 {
-    // Max external current that applied to the neuron, pA
+    // Max external current that applied to the neuron, pA.
     const float extIMax = 40.0f;
     mExtI = (rand() % (int) (extIMax * 10)) / 10.0f;
+}
+
+Neuron::Neuron(float extI) throw()
+    : Neuron()
+{
+    mExtI = extI;
 }
 
 void Neuron::connectTo(Neuron* target, float weight)
 {
     const float prevSynCurrent = 0;
     const float curSynCurrent = 0;
-    mTargets.push_back({target, weight, prevSynCurrent, curSynCurrent});
+    mAxones.push_back({target, weight, prevSynCurrent, curSynCurrent});
+
+    target->connectFrom(this, mAxones.size() - 1);
+}
+
+void Neuron::connectFrom(Neuron* source, unsigned axonId)
+{
+    mDendrites.push_back({source, axonId});
 }
 
 static inline float getRndWeight()
@@ -57,10 +75,10 @@ void Neuron::connectTo(Neuron* target, bool isPositive)
 
 float Neuron::getPrevMembraneValue() const
 {
-    // Some configurable params of Izhikevich neuron model.
+    // Some magic configurable params of Izhikevich neuron model.
     const float k = 0.5f;
     const float vt = -45.0f;
-    // Capacitance of neuron, dimension pF
+    // Capacitance of neuron, dimension pF.
     const float cm = 50.0f;
 
     return (k * (mPrevMembrane - DEFAULT_MEMBRANE) * (mPrevMembrane - vt) -
@@ -69,7 +87,7 @@ float Neuron::getPrevMembraneValue() const
 
 float Neuron::getPrevAdditionalValue() const
 {
-    // Some configurable params of Izhikevich neuron model.
+    // Some magic configurable params of Izhikevich neuron model.
     const float a = 0.02f;
     const float b = 0.5f;
 
@@ -78,74 +96,101 @@ float Neuron::getPrevAdditionalValue() const
 
 bool Neuron::tick(float h)
 {
-    const float spikeThreshold = 35.0f;
-    mSpiked = false;
-
-    // If need to force the spike.
-    // But this spike will be handled in next step
-    // due to need to have an ability to show the spike on a graph if any.
-    if (mForceSpike)
+    mPrevFired = mFired;
+    mFired = mPrevMembrane > SPIKE_THRESHOLD;
+    if (mFired)
     {
-        mCurMembrane = spikeThreshold + 0.1f;
-        mCurAdditional = 100.0f;
+        const float resetMembraneTo = -40.0f;
+        mCurMembrane = resetMembraneTo;
+        mCurAdditional = mPrevAdditional + 100.0f;
     }
     else
     {
         mCurMembrane = mPrevMembrane + h * getPrevMembraneValue();
         mCurAdditional = mPrevAdditional + h * getPrevAdditionalValue();
-
-        mSpiked = mPrevMembrane > spikeThreshold;
     }
 
-    // Spike occured.
-    if (mSpiked)
+    for (unsigned i = 0; i < mDendrites.size(); ++i)
     {
-        const float resetMembraneTo = -40.0f;
-        mCurMembrane = resetMembraneTo;
-        mCurAdditional = mPrevAdditional + 100.0f;
-        if (mCallback != 0)
-        {
-            mCallback(this);
-        }
+        mDendrites[i].source->teachSynWeight(mDendrites[i].axonId, mFired, mPrevFired);
+    }
+
+    // Defines how the synaptic current should fade down.
+    const float expireCoeff = exp(-h / 4.0f);
+    for (unsigned i = 0; i < mAxones.size(); ++i)
+    {
+        SAxon& target = mAxones.at(i);
+
+        target.curSynI = mFired ? 1.0f : (target.prevSynI * expireCoeff);
+        target.target->teachSynI(target.curSynI * target.weight);
+        target.prevSynI = target.curSynI;
     }
 
     mSynI = 0.0f;
     mPrevMembrane = mCurMembrane;
     mPrevAdditional = mCurAdditional;
-    mForceSpike = false;
 
-    // Defines how the synaptic current should fade down.
-    const float expireCoeff = exp(-h / 4.0f);
-    for (unsigned i = 0; i < mTargets.size(); ++i)
-    {
-        STarget& target = mTargets.at(i);
-
-        target.mCurSynI = mSpiked ? 1.0f : (target.mPrevSynI * expireCoeff);
-        target.mTarget->teach(target.mCurSynI * target.mWeight);
-        target.mPrevSynI = target.mCurSynI;
-    }
-
-    return mSpiked;
+    return mFired;
 }
 
 void Neuron::spike()
 {
-    mForceSpike = true;
+    mPrevMembrane = SPIKE_THRESHOLD + 0.1f;
 }
 
-void Neuron::teach(float value)
+void Neuron::teachSynI(float value)
 {
     mSynI += value;
 }
 
-float Neuron::getMembraneValue() const
+float Neuron::getSynI() const
 {
-    return mCurMembrane;
+    return mSynI;
 }
 
-bool Neuron::spiked() const
+bool Neuron::teachSynWeight(unsigned axonId, unsigned curTarget, unsigned prevTarget)
 {
-    return mSpiked;
+    if (axonId >= mAxones.size())
+    {
+        return false;
+    }
+
+    const int teachFactor = 1;
+    int value = teachFactor * (mFired - mPrevFired) * (curTarget - prevTarget);
+
+    SAxon& target = mAxones.at(axonId);
+    if (target.weight < 0)
+    {
+        target.weight -= value;
+    }
+    else
+    {
+        target.weight += value;
+    }
+
+
+    return true;
+}
+
+float Neuron::getMembraneValue() const
+{
+    return mPrevMembrane;
+}
+
+bool Neuron::fired() const
+{
+    return mFired;
+}
+
+const TAxones& Neuron::getAxons() const
+{
+    return mAxones;
+}
+
+const TDendrites& Neuron::getDendrites() const
+{
+    return mDendrites;
 }
 
 } // namespace NSnu
+

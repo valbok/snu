@@ -14,6 +14,60 @@
 namespace NSnu
 {
 
+class Neuron;
+
+/**
+ * Internal structure to store info about target neurons.
+ */
+struct SAxon
+{
+    /**
+     * Target neuron.
+     */
+    Neuron* target;
+
+    /**
+     * Weight of the connection. Can be negative.
+     */
+    float weight;
+
+    /**
+     * Synaptic current of previous call.
+     */
+    float prevSynI;
+
+    /**
+     * Synaptic current of last call.
+     */
+    float curSynI;
+};
+
+/**
+ * Array of connections from current neuron.
+ */
+typedef std::vector<SAxon> TAxones;
+
+/**
+ * Connection to current neuron.
+ */
+struct SDendrite
+{
+    /**
+     * Source neuron.
+     */
+    Neuron* source;
+
+    /**
+     * Id of a connection where axon can be found in source neuron.
+     */
+    unsigned axonId;
+};
+
+/**
+ * Array of connections to current neuron.
+ */
+typedef std::vector<SDendrite> TDendrites;
+
 /**
  * Izhikevich neuron model.
  */
@@ -22,16 +76,18 @@ class Neuron
 public:
 
     /**
-     * Callback type.
-     */
-    typedef void (*TCallback)(const Neuron*);
-
-    /**
      * Default constructor.
      *
      * @param Callback function when spike fired.
      */
-    Neuron(TCallback callback = 0) throw();
+    Neuron() throw();
+
+    /**
+     * Default constructor.
+     *
+     * @param
+     */
+    Neuron(float extI) throw();
 
     /**
      * Connects to another neuron with connection weight.
@@ -47,7 +103,7 @@ public:
      * @param Target neuron.
      * @param True if connection is positive and weight will be random.
      */
-    void connectTo(Neuron* target, bool isPositive);
+    void connectTo(Neuron* target, bool isPositive = true);
 
     /**
      * Applies a spike to the neuron.
@@ -68,9 +124,24 @@ public:
     float getMembraneValue() const;
 
     /**
-     * Checks if the neuron is active now. Means fired.
+     * Checks if the neuron fired and handled axons.
      */
-    bool spiked() const;
+    bool fired() const;
+
+    /**
+     * Returns axons of current neuron.
+     */
+    const TAxones& getAxons() const;
+
+    /**
+     * Returns dendrites of current neuron.
+     */
+    const TDendrites& getDendrites() const;
+
+    /**
+     * Returns synaptic current. Sum from all dendrite neurons.
+     */
+    float getSynI() const;
 
 private:
 
@@ -79,7 +150,16 @@ private:
      *
      * @param Submitted value.
      */
-    void teach(float value);
+    void teachSynI(float value);
+
+    /**
+     * Teaches synapse weights using differencial learning of Hebb.
+     *
+     * @param Id of a connection.
+     * @param Current value of target neuron.
+     * @param Previous value of target neuron.
+     */
+    bool teachSynWeight(unsigned axonId, unsigned curTarget, unsigned prevTarget);
 
     /**
      * Returns membrane value of previous call.
@@ -94,35 +174,22 @@ private:
     float getPrevAdditionalValue() const;
 
     /**
-     * Internal structure to store info about target neurons.
+     * Creates dendrite connection from source neuron to current.
+     *
+     * @param Source neuron.
+     * @param Id of axon where info is located.
      */
-    struct STarget
-    {
-        /**
-         * Target neuron.
-         */
-        Neuron* mTarget;
-
-        /**
-         * Weight of the connection. Can be negative.
-         */
-        float mWeight;
-
-        /**
-         * Synaptic current of previous call.
-         */
-        float mPrevSynI;
-
-        /**
-         * Synaptic current of last call.
-         */
-        float mCurSynI;
-    };
+    void connectFrom(Neuron* source, unsigned axonId);
 
     /**
      * A vector with info about target neurons.
      */
-    std::vector<STarget> mTargets;
+    TAxones mAxones;
+
+    /**
+     * A vector of dendrites. Neurons that connected to current one.
+     */
+    TDendrites mDendrites;
 
     /**
      * External current.
@@ -156,20 +223,14 @@ private:
     float mCurAdditional;
 
     /**
-     * Force defines if there is a spike on the neuron.
-     * @see spike()
+     * Defines if the neuron fired in current step.
      */
-    bool mForceSpike;
+    bool mFired;
 
     /**
      * Defines if the neuron fired in current step.
      */
-    bool mSpiked;
-
-    /**
-     * Callback function will be called if skipe occured.
-     */
-    TCallback mCallback;
+    bool mPrevFired;
 };
 
 } // namespace NSnu

@@ -16,11 +16,8 @@ TEST(SnuPack, test)
     // Create the world
     Enki::World world(200, 200);
 
-    // Create a Khepera and position it
     SnuPuck *snu = new SnuPuck;
     snu->pos = Enki::Point(100, 100);
-    //snu->leftSpeed = 20;
-    //snu->rightSpeed = 20;
 
     // objects are garbage collected by the world on destruction
     world.addObject(snu);
@@ -44,11 +41,14 @@ TEST(SnuPack, test)
     // Run for some times
     for (unsigned i=0; i<1000; i++)
     {
-        snu->tick(0.5);
+        snu->tick(5);
         // step of 50 ms
-        world.step(0.2);
+        world.step(0.5);
+        if (snu->frontTouched())
+        {
         std::cout << "\n[" << i << "]\nObject pos is (" << o->pos.x << "," << o->pos.y << ")" << std::endl;
-        std::cout << "Snu pos is (" << snu->pos.x << "," << snu->pos.y << ")" << std::endl;
+        std::cout << "Snu pos is (" << snu->pos.x << "," << snu->pos.y << ") touched: " << snu->frontTouched() << std::endl;
+    }
 
     }
 

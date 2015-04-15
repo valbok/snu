@@ -10,3 +10,6 @@ target_link_libraries(memosc brain)
 
 add_executable(CElegansTest CElegansTest.cpp)
 target_link_libraries(CElegansTest brain gtest)
+
+add_executable(NeuronTest NeuronTest.cpp)
+target_link_libraries(NeuronTest brain gtest)
