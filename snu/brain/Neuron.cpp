@@ -107,12 +107,12 @@ bool Neuron::tick(float h)
     }
 
     // Defines how the synaptic current should fade down.
-    const float expireCoeff = exp(-h / 4.0f);
+    const float expireFactor = exp(-h / 4.0f);
     for (unsigned i = 0; i < mAxones.size(); ++i)
     {
         SAxon& target = mAxones.at(i);
 
-        target.curSynI = mFired ? 1.0f : (target.prevSynI * expireCoeff);
+        target.curSynI = mFired ? 1.0f : (target.prevSynI * expireFactor);
         target.target->teachSynI(target.curSynI * target.weight);
         target.prevSynI = target.curSynI;
     }

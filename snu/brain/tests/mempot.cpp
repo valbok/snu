@@ -24,10 +24,10 @@ int main()
     fn3.open("neuron3.csv");
     fn4.open("neuron4.csv");
 
-    Neuron n1;
-    Neuron n2;
-    Neuron n3;
-    Neuron n4;
+    Neuron n1(10);
+    Neuron n2(10);
+    Neuron n3(10);
+    Neuron n4(10);
     n1.connectTo(&n2, false);
     n1.connectTo(&n3, true);
     n1.connectTo(&n4, true);
@@ -43,10 +43,10 @@ int main()
         fn3 << t * TIME_STEP << "; " << n3.getMembraneValue() << "; " << std::endl;
         fn4 << t * TIME_STEP << "; " << n4.getMembraneValue() << "; " << std::endl;
 
-        if (n1.tick(TIME_STEP)) std::cout << "n1 spiked\n";
+        if (n1.tick(TIME_STEP)) {std::cout << "n1 spiked\n";}
         if (n2.tick(TIME_STEP)) {std::cout << "n2 spiked\n";}
         if (n3.tick(TIME_STEP)) {std::cout << "n3 spiked\n";}
-        if (n4.tick(TIME_STEP)) std::cout << "n4 spiked\n";
+        if (n4.tick(TIME_STEP)) {std::cout << "n4 spiked\n";}
 
         if (t % 100 == 0)
             n1.spike();

@@ -6,6 +6,7 @@
 #include <snu/brain/Neuron.hpp>
 #include <gtest/gtest.h>
 #include <iostream>
+#include <fstream>
 
 using namespace NSnu;
 using namespace std;
@@ -387,11 +388,11 @@ TEST(Neuron, testAutoSpikeWoExt)
 
 TEST(Neuron, testAutoSpikeWExt)
 {
-    Neuron n1(35), n2(20);
+    Neuron n1(31.0f), n2(40.0f);
     n1.connectTo(&n2);
 
     bool foundSpike = false;
-    for (int i = 0; i < 10000; ++i)
+    for (int i = 0; i < 1000000; ++i)
     {
         n1.tick(TIME_STEP);
         n2.spike();
@@ -402,5 +403,184 @@ TEST(Neuron, testAutoSpikeWExt)
         }
     }
 
-    EXPECT_TRUE(foundSpike);
+    EXPECT_FALSE(foundSpike);
+}
+
+float getRndWeight()
+{
+    const float maxWeight = 100.0f;
+    const float minWeight = 50.0f;
+
+    return (rand() % ((int)(maxWeight - minWeight) * 10)) / 10.0f + minWeight;
+}
+
+TEST(Neuron, testEmptyAverageMembraneValue)
+{
+    const int neuronsCount = 125;
+    const int connsCount  = neuronsCount * neuronsCount * 0.1f;
+
+    std::vector<Neuron> neurons(neuronsCount);
+
+    for (int i = 0; i < connsCount; ++i)
+    {
+        int pre = rand() % neuronsCount;
+        int post = rand() % neuronsCount;
+        float w = getRndWeight();
+        if (pre >= 100)
+        {
+            w = -w;
+        }
+
+        neurons[pre].connectTo(&neurons[post], w);
+    }
+
+    bool spikeFound = false;
+    for (unsigned t = 0; t < (1000/0.5f); ++t)
+    {
+        float mean = 0.0f;
+        for (unsigned i = 0; i < neuronsCount; ++i)
+        {
+            neurons[i].tick(TIME_STEP);
+            if (neurons[i].fired())
+            {
+                spikeFound = true;
+            }
+        }
+    }
+    EXPECT_FALSE(spikeFound);
+}
+
+float getRndExtI()
+{
+    const float extIMax = 40.0f;
+    return (rand() % (int) (extIMax * 10)) / 10.0f;
+}
+
+TEST(Neuron, testAverageMembraneValue)
+{
+    const int neuronsCount = 125;
+    const int connsCount  = neuronsCount * neuronsCount * 0.1f;
+
+    Neuron* neurons[neuronsCount];
+    for (int i = 0; i < neuronsCount; ++i)
+    {
+        neurons[i] = new Neuron(getRndExtI());
+    }
+
+    for (int i = 0; i < connsCount; ++i)
+    {
+        int pre = rand() % neuronsCount;
+        int post = rand() % neuronsCount;
+        float w = getRndWeight();
+        if (pre >= 100)
+        {
+            w = -w;
+        }
+
+        neurons[pre]->connectTo(neurons[post], w);
+    }
+
+    std::ofstream f;
+    f.open("average.csv");
+
+    bool spikeFound = false;
+    for (unsigned t = 0; t < (1000/0.5f); ++t)
+    {
+        float mean = 0.0f;
+        for (unsigned i = 0; i < neuronsCount; ++i)
+        {
+            neurons[i]->tick(TIME_STEP);
+            mean += neurons[i]->getMembraneValue();
+            if (neurons[i]->fired())
+            {
+                spikeFound = true;
+            }
+        }
+        mean /= neuronsCount;
+
+        if (mean > 0)
+        {
+            spikeFound = true;
+        }
+        f << t * TIME_STEP << "; " << mean << "; " << std::endl;
+    }
+
+    EXPECT_TRUE(spikeFound);
+    f.close();
+
+    for (int i = 0; i < neuronsCount; ++i)
+    {
+        delete neurons[i];
+    }
+}
+
+TEST(Neuron, testPosNegWeight)
+{
+    Neuron n1, n2, n3;
+
+    n1.connectTo(&n3, 10.0f);
+    n2.connectTo(&n3, -10.0f);
+    for (unsigned t = 0; t < 100000; ++t)
+    {
+        n1.spike();
+        n1.tick(TIME_STEP);
+        n2.spike();
+        n2.tick(TIME_STEP);
+        n3.tick(TIME_STEP);
+
+        EXPECT_FALSE(n3.fired());
+    }
+}
+
+TEST(Neuron, testMorePosThanNegWeight)
+{
+    Neuron n1, n2, n3;
+
+    n1.connectTo(&n3, 40.0f);
+    n2.connectTo(&n3, -5.0f);
+    bool spikeFound = false;
+    for (unsigned t = 0; t < 100000; ++t)
+    {
+        n1.spike();
+        n1.tick(TIME_STEP);
+        n2.spike();
+        n2.tick(TIME_STEP);
+        n3.tick(TIME_STEP);
+
+        if (n3.fired())
+        {
+            spikeFound = true;
+        }
+    }
+
+    EXPECT_TRUE(spikeFound);
+}
+
+TEST(Neuron, testWeight)
+{
+    const float weights[]
+        = {0.0f, 10.0f, 30.0f, 31.0f, 32.0f, 33.0f, 35.0f, 40.0f, 50.0f, 70.0f, 90.0f, 100.0f, 150.0f, 180.0f, 200.0f, 220.0f, 250.0f};
+    const int iters[]
+        = {-1  , -1   , -1   , -1   , 333  , 229  , 165  , 111  , 75   , 50   , 39   , 36    , 26    , 22    , 21    , 19    , 18};
+
+    for (int i = 0; i < (sizeof(weights)/sizeof(float)); ++i)
+    {
+        Neuron n1, n2;
+
+        n1.connectTo(&n2, weights[i]);
+        int spikeFound = -1;
+        for (int t = 0; t < 1000; ++t)
+        {
+            n1.spike();
+            n1.tick(TIME_STEP);
+            n2.tick(TIME_STEP);
+            if (n2.fired())
+            {
+                spikeFound = t;
+                break;
+            }
+        }
+
+        EXPECT_EQ(spikeFound, iters[i]);
+    }
 }
