@@ -43,10 +43,10 @@ int main()
         fn3 << t * TIME_STEP << "; " << n3.getMembraneValue() << "; " << std::endl;
         fn4 << t * TIME_STEP << "; " << n4.getMembraneValue() << "; " << std::endl;
 
-        if (n1.tick(TIME_STEP)) {std::cout << "n1 spiked\n";}
-        if (n2.tick(TIME_STEP)) {std::cout << "n2 spiked\n";}
-        if (n3.tick(TIME_STEP)) {std::cout << "n3 spiked\n";}
-        if (n4.tick(TIME_STEP)) {std::cout << "n4 spiked\n";}
+        if (n1.step(TIME_STEP)) {std::cout << "n1 spiked\n";}
+        if (n2.step(TIME_STEP)) {std::cout << "n2 spiked\n";}
+        if (n3.step(TIME_STEP)) {std::cout << "n3 spiked\n";}
+        if (n4.step(TIME_STEP)) {std::cout << "n4 spiked\n";}
 
         if (t % 100 == 0)
             n1.spike();

@@ -1,6 +1,8 @@
 include_directories(${snu_SOURCE_DIR})
 include_directories(${snu_SOURCE_DIR}/lib/enki)
 include_directories(${snu_SOURCE_DIR}/lib/enki/viewer)
+include_directories(gl)
+
 
 set(QT_USE_QTOPENGL TRUE)
 find_package(Qt4)
@@ -38,5 +40,17 @@ if (QT4_FOUND)
 	
 	add_library (viewer ${viewer_lib_SRCS} ${viewer_lib_RCC_SRCS})
 	add_executable(playground ${viewer_test_SRCS})
-	target_link_libraries(playground viewer enki robots brain ${QT_LIBRARIES} ${OPENGL_LIBRARIES} ${EXTRA_LIBS})
+	target_link_libraries(playground 
+		viewer 
+		enki 
+		robots 
+		worm
+		brain
+		${QT_LIBRARIES} 
+		${OPENGL_LIBRARIES} 
+		${EXTRA_LIBS} 
+	)
 endif (QT4_FOUND)
+
+add_executable(CElegansBehavior CElegansBehavior.cpp)
+target_link_libraries(CElegansBehavior robots enki worm brain ${snu_SOURCE_DIR}/viewer/lib/libsxmlgui.a ${snu_SOURCE_DIR}/viewer/lib/libglpng.a glut GLU GL)

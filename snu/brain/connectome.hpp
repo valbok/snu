@@ -17,7 +17,7 @@ namespace NConnectome
 /**
  * Inits the object by static connectome.
  */
-inline static void init(CElegans& object)
+inline static void init(CElegansBrain& object)
 {
     object.connect("ADAL", "ADAR", 1);
     object.connect("ADAL", "ADFL", 1);
@@ -1153,8 +1153,8 @@ inline static void init(CElegans& object)
     object.connect("AVL", "DVB", 1);
     object.connect("AVL", "DVC", 9);
     object.connect("AVL", "HSNR", 1);
-    object.connect("AVL", "MVL10", -5);
-    object.connect("AVL", "MVR10", -5);
+    object.connect("AVL", "MVL10", 5);
+    object.connect("AVL", "MVR10", 5);
     object.connect("AVL", "PVM", 1);
     object.connect("AVL", "PVPR", 1);
     object.connect("AVL", "PVWL", 1);
@@ -1571,68 +1571,68 @@ inline static void init(CElegans& object)
     object.connect("DB7", "MDR23", 2);
     object.connect("DB7", "MDR24", 2);
     object.connect("DB7", "VD13", 2);
-    object.connect("DD1", "AVBR", 1);
-    object.connect("DD1", "DA2", 2);
-    object.connect("DD1", "DD2", 1);
-    object.connect("DD1", "MDL07", -6); // 4
-    object.connect("DD1", "MDL08", -6); // 4
-    object.connect("DD1", "MDL09", -7); // 5
-    object.connect("DD1", "MDL10", -6); // 4
-    object.connect("DD1", "MDR07", -6); // 4
-    object.connect("DD1", "MDR08", -6); // 4
-    object.connect("DD1", "MDR09", -7); // 5
-    object.connect("DD1", "MDR10", -6); // 4
-    object.connect("DD1", "VD1", 4);
-    object.connect("DD1", "VD2", 1);
-    object.connect("DD1", "VD2", 2);
-    object.connect("DD2", "DA3", 1);
-    object.connect("DD2", "DD1", 1);
-    object.connect("DD2", "DD3", 2);
-    object.connect("DD2", "MDL09", -6); // 4
-    object.connect("DD2", "MDL11", -7); // 5
-    object.connect("DD2", "MDL12", -6); // 4
-    object.connect("DD2", "MDR09", -6); // 4
-    object.connect("DD2", "MDR11", -7); // 5
-    object.connect("DD2", "MDR12", -6); // 4
-    object.connect("DD2", "VD3", 1);
-    object.connect("DD2", "VD4", 1);
-    object.connect("DD2", "VD4", 2);
-    object.connect("DD3", "DD2", 2);
-    object.connect("DD3", "DD4", 1);
-    object.connect("DD3", "MDL11", -7); // 5
-    object.connect("DD3", "MDL13", -9); // 6
-    object.connect("DD3", "MDL14", -7); // 5
-    object.connect("DD3", "MDR11", -7); // 5
-    object.connect("DD3", "MDR13", -9); // 6
-    object.connect("DD3", "MDR14", -7); // 5
-    object.connect("DD4", "DD3", 1);
-    object.connect("DD4", "MDL13", -7); // 5
-    object.connect("DD4", "MDL15", -7); // 5
-    object.connect("DD4", "MDL16", -7); // 5
-    object.connect("DD4", "MDR13", -7); // 5
-    object.connect("DD4", "MDR15", -7); // 5
-    object.connect("DD4", "MDR16", -7); // 5
-    object.connect("DD4", "VC3", 1);
-    object.connect("DD4", "VD8", 1);
-    object.connect("DD5", "MDL17", -7); // 5
-    object.connect("DD5", "MDL18", -7); // 5
-    object.connect("DD5", "MDL20", -7); // 5
-    object.connect("DD5", "MDR17", -7); // 5
-    object.connect("DD5", "MDR18", -7); // 5
-    object.connect("DD5", "MDR20", -7); // 5
-    object.connect("DD5", "VB8", 1);
-    object.connect("DD5", "VD10", 1);
-    object.connect("DD5", "VD9", 1);
-    object.connect("DD6", "MDL19", -7); // 5
-    object.connect("DD6", "MDL21", -7); // 5
-    object.connect("DD6", "MDL22", -7); // 5
-    object.connect("DD6", "MDL23", -7); // 5
-    object.connect("DD6", "MDL24", -7); // 5
-    object.connect("DD6", "MDR19", -7); // 5
-    object.connect("DD6", "MDR21", -7); // 5
-    object.connect("DD6", "MDR22", -7); // 5
-    object.connect("DD6", "MDR23", -7); // 5
-    object.connect("DD6", "MDR24", -7); // 5
+    object.connect("DD1", "AVBR", -1);
+    object.connect("DD1", "DA2", -2);
+    object.connect("DD1", "DD2", -1);
+    object.connect("DD1", "MDL07", -4);
+    object.connect("DD1", "MDL08", -4);
+    object.connect("DD1", "MDL09", -5);
+    object.connect("DD1", "MDL10", -4);
+    object.connect("DD1", "MDR07", -4);
+    object.connect("DD1", "MDR08", -4);
+    object.connect("DD1", "MDR09", -5);
+    object.connect("DD1", "MDR10", -4);
+    object.connect("DD1", "VD1", -4);
+    object.connect("DD1", "VD2", -1);
+    object.connect("DD1", "VD2", -2);
+    object.connect("DD2", "DA3", -1);
+    object.connect("DD2", "DD1", -1);
+    object.connect("DD2", "DD3", -2);
+    object.connect("DD2", "MDL09", -4);
+    object.connect("DD2", "MDL11", -5);
+    object.connect("DD2", "MDL12", -4);
+    object.connect("DD2", "MDR09", -4);
+    object.connect("DD2", "MDR11", -5);
+    object.connect("DD2", "MDR12", -4);
+    object.connect("DD2", "VD3", -1);
+    object.connect("DD2", "VD4", -1);
+    object.connect("DD2", "VD4", -2);
+    object.connect("DD3", "DD2", -2);
+    object.connect("DD3", "DD4", -1);
+    object.connect("DD3", "MDL11", -5);
+    object.connect("DD3", "MDL13", -6);
+    object.connect("DD3", "MDL14", -5);
+    object.connect("DD3", "MDR11", -7);
+    object.connect("DD3", "MDR13", -9);
+    object.connect("DD3", "MDR14", -7);
+    object.connect("DD4", "DD3", -1);
+    object.connect("DD4", "MDL13", -5);
+    object.connect("DD4", "MDL15", -5);
+    object.connect("DD4", "MDL16", -5);
+    object.connect("DD4", "MDR13", -5);
+    object.connect("DD4", "MDR15", -5);
+    object.connect("DD4", "MDR16", -5);
+    object.connect("DD4", "VC3", -1);
+    object.connect("DD4", "VD8", -1);
+    object.connect("DD5", "MDL17", -5);
+    object.connect("DD5", "MDL18", -5);
+    object.connect("DD5", "MDL20", -5);
+    object.connect("DD5", "MDR17", -5);
+    object.connect("DD5", "MDR18", -5);
+    object.connect("DD5", "MDR20", -5);
+    object.connect("DD5", "VB8", -1);
+    object.connect("DD5", "VD10", -1);
+    object.connect("DD5", "VD9", -1);
+    object.connect("DD6", "MDL19", -5);
+    object.connect("DD6", "MDL21", -5);
+    object.connect("DD6", "MDL22", -5);
+    object.connect("DD6", "MDL23", -5);
+    object.connect("DD6", "MDL24", -5);
+    object.connect("DD6", "MDR19", -5);
+    object.connect("DD6", "MDR21", -5);
+    object.connect("DD6", "MDR22", -5);
+    object.connect("DD6", "MDR23", -5);
+    object.connect("DD6", "MDR24", -5);
     object.connect("DVA", "AIZL", 3);
     object.connect("DVA", "AQR", 4);
     object.connect("DVA", "AUAL", 1);
@@ -2712,8 +2712,8 @@ inline static void init(CElegans& object)
     object.connect("RID", "DD1", 4);
     object.connect("RID", "DD2", 4);
     object.connect("RID", "DD3", 3);
-    object.connect("RID", "MDL14", -2); // 1
-    object.connect("RID", "MDL21", -3); // 2
+    object.connect("RID", "MDL14", -1);
+    object.connect("RID", "MDL21", -2);
     object.connect("RID", "PDB", 2);
     object.connect("RID", "VD13", 1);
     object.connect("RID", "VD5", 1);
@@ -2911,9 +2911,9 @@ inline static void init(CElegans& object)
     object.connect("RIS", "SMDVR", 1);
     object.connect("RIS", "URYVR", 1);
     object.connect("RIVL", "AIBL", 1);
-    object.connect("RIVL", "MVR05", -2); // 1
-    object.connect("RIVL", "MVR06", -2); // 1
-    object.connect("RIVL", "MVR08", -3); // 2
+    object.connect("RIVL", "MVR05", 1);
+    object.connect("RIVL", "MVR06", 1);
+    object.connect("RIVL", "MVR08", 2);
     object.connect("RIVL", "RIAL", 1);
     object.connect("RIVL", "RIAR", 1);
     object.connect("RIVL", "RIVR", 2);
@@ -2924,11 +2924,11 @@ inline static void init(CElegans& object)
     object.connect("RIVL", "SMDDR", 1);
     object.connect("RIVL", "SMDVL", 1);
     object.connect("RIVR", "AIBR", 1);
-    object.connect("RIVR", "MVL05", -2); // 1
-    object.connect("RIVR", "MVL06", -2); // 1
-    object.connect("RIVR", "MVL08", -2); // 1
-    object.connect("RIVR", "MVR04", -2); // 1
-    object.connect("RIVR", "MVR06", -2); // 1
+    object.connect("RIVR", "MVL05", 1);
+    object.connect("RIVR", "MVL06", 1);
+    object.connect("RIVR", "MVL08", 1);
+    object.connect("RIVR", "MVR04", 1);
+    object.connect("RIVR", "MVR06", 1);
     object.connect("RIVR", "RIAL", 2);
     object.connect("RIVR", "RIAR", 1);
     object.connect("RIVR", "RIVL", 2);
@@ -3037,35 +3037,35 @@ inline static void init(CElegans& object)
     object.connect("RMDVR", "SIBVR", 1);
     object.connect("RMDVR", "SMDVR", 1);
     object.connect("RMED", "IL1VL", 1);
-    object.connect("RMED", "MVL02", -4); // 2
-    object.connect("RMED", "MVL04", -4); // 2
-    object.connect("RMED", "MVL06", -4); // 2
-    object.connect("RMED", "MVR02", -4); // 2
-    object.connect("RMED", "MVR04", -4); // 2
+    object.connect("RMED", "MVL02", 2);
+    object.connect("RMED", "MVL04", 2);
+    object.connect("RMED", "MVL06", 2);
+    object.connect("RMED", "MVR02", 2);
+    object.connect("RMED", "MVR04", 2);
     object.connect("RMED", "RIBL", 1);
     object.connect("RMED", "RIBR", 1);
     object.connect("RMED", "RIPL", 1);
     object.connect("RMED", "RIPR", 1);
     object.connect("RMED", "RMEV", 2);
-    object.connect("RMEL", "MDR01", -5); // 3
-    object.connect("RMEL", "MDR03", -5); // 3
-    object.connect("RMEL", "MVR01", -5); // 3
-    object.connect("RMEL", "MVR03", -5); // 3
+    object.connect("RMEL", "MDR01", 3);
+    object.connect("RMEL", "MDR03", 3);
+    object.connect("RMEL", "MVR01", 3);
+    object.connect("RMEL", "MVR03", 3);
     object.connect("RMEL", "RIGL", 1);
     object.connect("RMEL", "RMEV", 1);
-    object.connect("RMER", "MDL01", -7); // 5
-    object.connect("RMER", "MDL03", -7); // 5
-    object.connect("RMER", "MVL01", -7); // 5
+    object.connect("RMER", "MDL01", 5);
+    object.connect("RMER", "MDL03", 5);
+    object.connect("RMER", "MVL01", 5);
     object.connect("RMER", "RMEV", 1);
     object.connect("RMEV", "AVEL", 1);
     object.connect("RMEV", "AVER", 1);
     object.connect("RMEV", "IL1DL", 1);
     object.connect("RMEV", "IL1DR", 1);
-    object.connect("RMEV", "MDL02", -3); // 1
-    object.connect("RMEV", "MDL04", -3); // 1
-    object.connect("RMEV", "MDL06", -3); // 1
-    object.connect("RMEV", "MDR02", -3); // 1
-    object.connect("RMEV", "MDR04", -3); // 1
+    object.connect("RMEV", "MDL02", 1);
+    object.connect("RMEV", "MDL04", 1);
+    object.connect("RMEV", "MDL06", 1);
+    object.connect("RMEV", "MDR02", 1);
+    object.connect("RMEV", "MDR04", 1);
     object.connect("RMEV", "RMED", 2);
     object.connect("RMEV", "RMEL", 1);
     object.connect("RMEV", "RMER", 1);
@@ -3855,124 +3855,124 @@ inline static void init(CElegans& object)
     object.connect("VC5", "VC4", 1);
     object.connect("VC5", "VC4", 1);
     object.connect("VC6", "MVULVA", 1);
-    object.connect("VD1", "DD1", 1);
-    object.connect("VD1", "DD1", 4);
-    object.connect("VD1", "DVC", 5);
-    object.connect("VD1", "MVL05", -5); // 3
-    object.connect("VD1", "MVL08", -5); // 3
-    object.connect("VD1", "MVR05", -5); // 3
-    object.connect("VD1", "MVR08", -5); // 3
-    object.connect("VD1", "RIFL", 1);
-    object.connect("VD1", "RIGL", 2);
-    object.connect("VD1", "SMDDR", 1);
-    object.connect("VD1", "VA1", 2);
-    object.connect("VD1", "VA2", 1);
-    object.connect("VD1", "VC1", 1);
-    object.connect("VD1", "VD2", 7);
-    object.connect("VD10", "AVBR", 1);
-    object.connect("VD10", "DD5", 1);
-    object.connect("VD10", "DD5", 1);
-    object.connect("VD10", "DVC", 4);
-    object.connect("VD10", "MVL17", -9); // 6
-    object.connect("VD10", "MVL20", -9); // 6
-    object.connect("VD10", "MVR17", -9); // 6
-    object.connect("VD10", "MVR20", -9); // 6
-    object.connect("VD10", "VB9", 2);
-    object.connect("VD10", "VD9", 5);
-    object.connect("VD11", "AVAR", 2);
-    object.connect("VD11", "MVL19", -9); // 6
-    object.connect("VD11", "MVL20", -9); // 6
-    object.connect("VD11", "MVR19", -9); // 6
-    object.connect("VD11", "MVR20", -9); // 6
-    object.connect("VD11", "VA11", 1);
-    object.connect("VD11", "VB10", 1);
-    object.connect("VD12", "MVL19", -5); // 3
-    object.connect("VD12", "MVL21", -5); // 3
-    object.connect("VD12", "MVR19", -5); // 3
-    object.connect("VD12", "MVR22", -5); // 3
-    object.connect("VD12", "VA11", 3);
-    object.connect("VD12", "VA12", 2);
-    object.connect("VD12", "VB10", 1);
-    object.connect("VD12", "VB11", 1);
-    object.connect("VD13", "AVAR", 2);
-    object.connect("VD13", "MVL21", -9); // 6
-    object.connect("VD13", "MVL22", -9); // 6
-    object.connect("VD13", "MVL23", -9); // 6
-    object.connect("VD13", "MVR21", -9); // 6
-    object.connect("VD13", "MVR22", -9); // 6
-    object.connect("VD13", "MVR23", -9); // 6
-    object.connect("VD13", "MVR24", -9); // 6
-    object.connect("VD13", "PVCL", 1);
-    object.connect("VD13", "PVCR", 1);
-    object.connect("VD13", "PVPL", 2);
-    object.connect("VD13", "VA12", 1);
-    object.connect("VD2", "AS1", 1);
-    object.connect("VD2", "DD1", 1);
-    object.connect("VD2", "DD1", 2);
-    object.connect("VD2", "MVL07", -7); // 5
-    object.connect("VD2", "MVL10", -7); // 5
-    object.connect("VD2", "MVR07", -7); // 5
-    object.connect("VD2", "MVR10", -7); // 5
-    object.connect("VD2", "VA2", 6);
-    object.connect("VD2", "VA2", 3);
-    object.connect("VD2", "VB2", 3);
-    object.connect("VD2", "VD1", 7);
-    object.connect("VD2", "VD3", 2);
-    object.connect("VD3", "MVL09", -7); // 5
-    object.connect("VD3", "MVL12", -9); // 6
-    object.connect("VD3", "MVR09", -7); // 5
-    object.connect("VD3", "MVR12", -7); // 5
-    object.connect("VD3", "PVPL", 1);
-    object.connect("VD3", "VA3", 2);
-    object.connect("VD3", "VB2", 2);
-    object.connect("VD3", "VD2", 2);
-    object.connect("VD3", "VD4", 1);
-    object.connect("VD4", "DD2", 2);
-    object.connect("VD4", "MVL11", -9); // 6
-    object.connect("VD4", "MVL12", -9); // 6
-    object.connect("VD4", "MVR11", -9); // 6
-    object.connect("VD4", "MVR12", -9); // 6
-    object.connect("VD4", "PVPR", 1);
-    object.connect("VD4", "VD3", 1);
-    object.connect("VD4", "VD5", 1);
-    object.connect("VD5", "AVAR", 1);
-    object.connect("VD5", "MVL14", -17); // 13
-    object.connect("VD5", "MVR14", -17); // 13
-    object.connect("VD5", "PVPR", 1);
-    object.connect("VD5", "VA5", 2);
-    object.connect("VD5", "VB4", 2);
-    object.connect("VD5", "VD4", 1);
-    object.connect("VD5", "VD6", 2);
-    object.connect("VD6", "AVAL", 1);
-    object.connect("VD6", "MVL13", -7); // 5
-    object.connect("VD6", "MVL14", -7); // 5
-    object.connect("VD6", "MVL16", -7); // 5
-    object.connect("VD6", "MVR13", -7); // 5
-    object.connect("VD6", "MVR14", -7); // 5
-    object.connect("VD6", "MVR16", -7); // 5
-    object.connect("VD6", "VA6", 1);
-    object.connect("VD6", "VB5", 2);
-    object.connect("VD6", "VD5", 2);
-    object.connect("VD6", "VD7", 1);
-    object.connect("VD7", "MVL15", -7); // 5
-    object.connect("VD7", "MVL16", -7); // 5
-    object.connect("VD7", "MVR15", -7); // 5
-    object.connect("VD7", "MVR16", -7); // 5
+    object.connect("VD1", "DD1", -1);
+    object.connect("VD1", "DD1", -4);
+    object.connect("VD1", "DVC", -5);
+    object.connect("VD1", "MVL05", -3);
+    object.connect("VD1", "MVL08", -3);
+    object.connect("VD1", "MVR05", -3);
+    object.connect("VD1", "MVR08", -3);
+    object.connect("VD1", "RIFL", -1);
+    object.connect("VD1", "RIGL", -2);
+    object.connect("VD1", "SMDDR", -1);
+    object.connect("VD1", "VA1", -2);
+    object.connect("VD1", "VA2", -1);
+    object.connect("VD1", "VC1", -1);
+    object.connect("VD1", "VD2", -7);
+    object.connect("VD10", "AVBR", -1);
+    object.connect("VD10", "DD5", -1);
+    object.connect("VD10", "DD5", -1);
+    object.connect("VD10", "DVC", -4);
+    object.connect("VD10", "MVL17", -6);
+    object.connect("VD10", "MVL20", -6);
+    object.connect("VD10", "MVR17", -6);
+    object.connect("VD10", "MVR20", -6);
+    object.connect("VD10", "VB9", -2);
+    object.connect("VD10", "VD9", -5);
+    object.connect("VD11", "AVAR", -2);
+    object.connect("VD11", "MVL19", -6);
+    object.connect("VD11", "MVL20", -6);
+    object.connect("VD11", "MVR19", -6);
+    object.connect("VD11", "MVR20", -6);
+    object.connect("VD11", "VA11", -1);
+    object.connect("VD11", "VB10", -1);
+    object.connect("VD12", "MVL19", -3);
+    object.connect("VD12", "MVL21", -3);
+    object.connect("VD12", "MVR19", -3);
+    object.connect("VD12", "MVR22", -3);
+    object.connect("VD12", "VA11", -3);
+    object.connect("VD12", "VA12", -2);
+    object.connect("VD12", "VB10", -1);
+    object.connect("VD12", "VB11", -1);
+    object.connect("VD13", "AVAR", -2);
+    object.connect("VD13", "MVL21", -6);
+    object.connect("VD13", "MVL22", -6);
+    object.connect("VD13", "MVL23", -6);
+    object.connect("VD13", "MVR21", -6);
+    object.connect("VD13", "MVR22", -6);
+    object.connect("VD13", "MVR23", -6);
+    object.connect("VD13", "MVR24", -6);
+    object.connect("VD13", "PVCL", -1);
+    object.connect("VD13", "PVCR", -1);
+    object.connect("VD13", "PVPL", -2);
+    object.connect("VD13", "VA12", -1);
+    object.connect("VD2", "AS1", -1);
+    object.connect("VD2", "DD1", -1);
+    object.connect("VD2", "DD1", -2);
+    object.connect("VD2", "MVL07", -5);
+    object.connect("VD2", "MVL10", -5);
+    object.connect("VD2", "MVR07", -5);
+    object.connect("VD2", "MVR10", -5);
+    object.connect("VD2", "VA2", -6);
+    object.connect("VD2", "VA2", -3);
+    object.connect("VD2", "VB2", -3);
+    object.connect("VD2", "VD1", -7);
+    object.connect("VD2", "VD3", -2);
+    object.connect("VD3", "MVL09", -5);
+    object.connect("VD3", "MVL12", -6);
+    object.connect("VD3", "MVR09", -5);
+    object.connect("VD3", "MVR12", -5);
+    object.connect("VD3", "PVPL", -1);
+    object.connect("VD3", "VA3", -2);
+    object.connect("VD3", "VB2", -2);
+    object.connect("VD3", "VD2", -2);
+    object.connect("VD3", "VD4", -1);
+    object.connect("VD4", "DD2", -2);
+    object.connect("VD4", "MVL11", -6);
+    object.connect("VD4", "MVL12", -6);
+    object.connect("VD4", "MVR11", -6);
+    object.connect("VD4", "MVR12", -6);
+    object.connect("VD4", "PVPR", -1);
+    object.connect("VD4", "VD3", -1);
+    object.connect("VD4", "VD5", -1);
+    object.connect("VD5", "AVAR", -1);
+    object.connect("VD5", "MVL14", -13);
+    object.connect("VD5", "MVR14", -13);
+    object.connect("VD5", "PVPR", -1);
+    object.connect("VD5", "VA5", -2);
+    object.connect("VD5", "VB4", -2);
+    object.connect("VD5", "VD4", -1);
+    object.connect("VD5", "VD6", -2);
+    object.connect("VD6", "AVAL", -1);
+    object.connect("VD6", "MVL13", -5);
+    object.connect("VD6", "MVL14", -5);
+    object.connect("VD6", "MVL16", -5);
+    object.connect("VD6", "MVR13", -5);
+    object.connect("VD6", "MVR14", -5);
+    object.connect("VD6", "MVR16", -5);
+    object.connect("VD6", "VA6", -1);
+    object.connect("VD6", "VB5", -2);
+    object.connect("VD6", "VD5", -2);
+    object.connect("VD6", "VD7", -1);
+    object.connect("VD7", "MVL15", -5);
+    object.connect("VD7", "MVL16", -5);
+    object.connect("VD7", "MVR15", -5);
+    object.connect("VD7", "MVR16", -5);
     object.connect("VD7", "MVULVA", -15);
-    object.connect("VD7", "VA9", 1);
-    object.connect("VD7", "VD6", 1);
-    object.connect("VD8", "DD4", 1);
-    object.connect("VD8", "DD4", 1);
-    object.connect("VD8", "MVL15", -18); // 12
-    object.connect("VD8", "MVR15", -18); // 12
-    object.connect("VD8", "VA8", 4);
-    object.connect("VD8", "VA8", 1);
-    object.connect("VD9", "MVL17", -10); // 7
-    object.connect("VD9", "MVL18", -10); // 7
-    object.connect("VD9", "MVR17", -10); // 7
-    object.connect("VD9", "MVR18", -10); // 7
-    object.connect("VD9", "PDER", 1);
-    object.connect("VD9", "VD10", 5);
+    object.connect("VD7", "VA9", -1);
+    object.connect("VD7", "VD6", -1);
+    object.connect("VD8", "DD4", -1);
+    object.connect("VD8", "DD4", -1);
+    object.connect("VD8", "MVL15", -12);
+    object.connect("VD8", "MVR15", -12);
+    object.connect("VD8", "VA8", -4);
+    object.connect("VD8", "VA8", -1);
+    object.connect("VD9", "MVL17", -7);
+    object.connect("VD9", "MVL18", -7);
+    object.connect("VD9", "MVR17", -7);
+    object.connect("VD9", "MVR18", -7);
+    object.connect("VD9", "PDER", -1);
+    object.connect("VD9", "VD10", -5);
 }
 
 } // namespace NConnectome

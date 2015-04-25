@@ -41,18 +41,18 @@ TEST(Neuron, testSpike)
     EXPECT_FALSE(n1.fired());
     EXPECT_TRUE(n1.getMembraneValue() > 0);
 
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     EXPECT_TRUE(n1.fired());
     EXPECT_TRUE(n1.getMembraneValue() < 0);
 
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     EXPECT_FALSE(n1.fired());
     EXPECT_TRUE(n1.getMembraneValue() < 0);
 
     n1.spike();
     EXPECT_TRUE(n1.getMembraneValue() > 0);
 
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     EXPECT_TRUE(n1.fired());
     EXPECT_TRUE(n1.getMembraneValue() < 0);
 }
@@ -66,17 +66,17 @@ TEST(Neuron, testTeachSynI)
     n1.connectTo(&n2, weight);
     n1.spike();
 
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     EXPECT_TRUE(n1.fired());
     EXPECT_EQ(1.0f, n1.getAxons()[0].curSynI);
     EXPECT_EQ(weight, n2.getSynI());
 
-    n2.tick(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_EQ(1.0f, n1.getAxons()[0].curSynI);
     EXPECT_EQ(1.0f, n1.getAxons()[0].prevSynI);
     EXPECT_EQ(0.0f, n2.getSynI());
 
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     EXPECT_FALSE(n1.fired());
     EXPECT_TRUE(1.0f > n1.getAxons()[0].curSynI);
     EXPECT_TRUE(weight > n2.getSynI());
@@ -90,8 +90,8 @@ TEST(Neuron, testTeachSynWeight_00_00)
     Neuron n2(EXT_I);
     n1.connectTo(&n2, weight);
 
-    n1.tick(TIME_STEP);
-    n2.tick(TIME_STEP);
+    n1.step(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_FALSE(n1.fired());
     EXPECT_FALSE(n2.fired());
     EXPECT_EQ(weight, n1.getAxons()[0].weight);
@@ -105,14 +105,14 @@ TEST(Neuron, testTeachSynWeight_00_01)
     Neuron n2(EXT_I);
     n1.connectTo(&n2, weight);
 
-    n1.tick(TIME_STEP);
-    n2.tick(TIME_STEP);
+    n1.step(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_FALSE(n1.fired());
     EXPECT_FALSE(n2.fired());
 
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     n2.spike();
-    n2.tick(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_FALSE(n1.fired());
     EXPECT_TRUE(n2.fired());
 
@@ -127,14 +127,14 @@ TEST(Neuron, testTeachSynWeight_00_10)
     Neuron n2(EXT_I);
     n1.connectTo(&n2, weight);
 
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     n2.spike();
-    n2.tick(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_FALSE(n1.fired());
     EXPECT_TRUE(n2.fired());
 
-    n1.tick(TIME_STEP);
-    n2.tick(TIME_STEP);
+    n1.step(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_FALSE(n1.fired());
     EXPECT_FALSE(n2.fired());
 
@@ -149,15 +149,15 @@ TEST(Neuron, testTeachSynWeight_00_11)
     Neuron n2(EXT_I);
     n1.connectTo(&n2, weight);
 
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     n2.spike();
-    n2.tick(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_FALSE(n1.fired());
     EXPECT_TRUE(n2.fired());
 
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     n2.spike();
-    n2.tick(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_FALSE(n1.fired());
     EXPECT_TRUE(n2.fired());
 
@@ -173,8 +173,8 @@ TEST(Neuron, testTeachSynWeight_01_00)
     n1.connectTo(&n2, weight);
 
     n1.spike();
-    n1.tick(TIME_STEP);
-    n2.tick(TIME_STEP);
+    n1.step(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_TRUE(n1.fired());
     EXPECT_FALSE(n2.fired());
     EXPECT_EQ(weight, n1.getAxons()[0].weight);
@@ -189,8 +189,8 @@ TEST(Neuron, testTeachSynWeight_01_01)
 
     n1.spike();
     n2.spike();
-    n1.tick(TIME_STEP);
-    n2.tick(TIME_STEP);
+    n1.step(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_EQ(weight + 1, n1.getAxons()[0].weight);
 }
 
@@ -203,8 +203,8 @@ TEST(Neuron, testTeachSynNegWeight_01_01)
 
     n1.spike();
     n2.spike();
-    n1.tick(TIME_STEP);
-    n2.tick(TIME_STEP);
+    n1.step(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_EQ(weight - 1, n1.getAxons()[0].weight);
 }
 
@@ -215,15 +215,15 @@ TEST(Neuron, testTeachSynWeight_01_10)
     Neuron n2(EXT_I);
     n1.connectTo(&n2, weight);
 
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     n2.spike();
-    n2.tick(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_FALSE(n1.fired());
     EXPECT_TRUE(n2.fired());
 
     n1.spike();
-    n1.tick(TIME_STEP);
-    n2.tick(TIME_STEP);
+    n1.step(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_TRUE(n1.fired());
     EXPECT_FALSE(n2.fired());
 
@@ -237,16 +237,16 @@ TEST(Neuron, testTeachSynWeight_01_11)
     Neuron n2(EXT_I);
     n1.connectTo(&n2, weight);
 
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     n2.spike();
-    n2.tick(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_FALSE(n1.fired());
     EXPECT_TRUE(n2.fired());
 
     n1.spike();
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     n2.spike();
-    n2.tick(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_TRUE(n1.fired());
     EXPECT_TRUE(n2.fired());
 
@@ -261,14 +261,14 @@ TEST(Neuron, testTeachSynWeight_10_00)
     n1.connectTo(&n2, weight);
 
     n1.spike();
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     EXPECT_TRUE(n1.fired());
-    n2.tick(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_FALSE(n2.fired());
 
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     EXPECT_FALSE(n1.fired());
-    n2.tick(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_FALSE(n2.fired());
 
     EXPECT_EQ(weight, n1.getAxons()[0].weight);
@@ -282,15 +282,15 @@ TEST(Neuron, testTeachSynWeight_10_01)
     n1.connectTo(&n2, weight);
 
     n1.spike();
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     EXPECT_TRUE(n1.fired());
-    n2.tick(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_FALSE(n2.fired());
 
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     EXPECT_FALSE(n1.fired());
     n2.spike();
-    n2.tick(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_TRUE(n2.fired());
 
     EXPECT_EQ(weight - 1, n1.getAxons()[0].weight);
@@ -304,17 +304,17 @@ TEST(Neuron, testTeachSynWeight_10_10)
     n1.connectTo(&n2, weight);
 
     n1.spike();
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     EXPECT_TRUE(n1.fired());
     n2.spike();
-    n2.tick(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_TRUE(n2.fired());
 
     EXPECT_EQ(weight + 1, n1.getAxons()[0].weight);
 
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     EXPECT_FALSE(n1.fired());
-    n2.tick(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_FALSE(n2.fired());
 
     // @todo Check if it is needed to be 0
@@ -329,18 +329,18 @@ TEST(Neuron, testTeachSynWeight_10_11)
     n1.connectTo(&n2, weight);
 
     n1.spike();
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     EXPECT_TRUE(n1.fired());
     n2.spike();
-    n2.tick(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_TRUE(n2.fired());
 
     EXPECT_EQ(weight + 1, n1.getAxons()[0].weight);
 
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     EXPECT_FALSE(n1.fired());
     n2.spike();
-    n2.tick(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_TRUE(n2.fired());
 
     EXPECT_EQ(weight + 1, n1.getAxons()[0].weight);
@@ -354,19 +354,19 @@ TEST(Neuron, testTeachSynWeight_11_11)
     n1.connectTo(&n2, weight);
 
     n1.spike();
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     EXPECT_TRUE(n1.fired());
     n2.spike();
-    n2.tick(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_TRUE(n2.fired());
 
     EXPECT_EQ(weight + 1, n1.getAxons()[0].weight);
 
     n1.spike();
-    n1.tick(TIME_STEP);
+    n1.step(TIME_STEP);
     EXPECT_TRUE(n1.fired());
     n2.spike();
-    n2.tick(TIME_STEP);
+    n2.step(TIME_STEP);
     EXPECT_TRUE(n2.fired());
 
     EXPECT_EQ(weight + 1, n1.getAxons()[0].weight);
@@ -379,8 +379,8 @@ TEST(Neuron, testAutoSpikeWoExt)
 
     for (int i = 0; i < 1000000; ++i)
     {
-        n1.tick(TIME_STEP);
-        n2.tick(TIME_STEP);
+        n1.step(TIME_STEP);
+        n2.step(TIME_STEP);
         EXPECT_FALSE(n1.fired());
         EXPECT_FALSE(n2.fired());
     }
@@ -394,9 +394,9 @@ TEST(Neuron, testAutoSpikeWExt)
     bool foundSpike = false;
     for (int i = 0; i < 1000000; ++i)
     {
-        n1.tick(TIME_STEP);
+        n1.step(TIME_STEP);
         n2.spike();
-        n2.tick(TIME_STEP);
+        n2.step(TIME_STEP);
         if (n1.fired())
         {
             foundSpike = true;
@@ -440,7 +440,7 @@ TEST(Neuron, testEmptyAverageMembraneValue)
         float mean = 0.0f;
         for (unsigned i = 0; i < neuronsCount; ++i)
         {
-            neurons[i].tick(TIME_STEP);
+            neurons[i].step(TIME_STEP);
             if (neurons[i].fired())
             {
                 spikeFound = true;
@@ -489,7 +489,7 @@ TEST(Neuron, testAverageMembraneValue)
         float mean = 0.0f;
         for (unsigned i = 0; i < neuronsCount; ++i)
         {
-            neurons[i]->tick(TIME_STEP);
+            neurons[i]->step(TIME_STEP);
             mean += neurons[i]->getMembraneValue();
             if (neurons[i]->fired())
             {
@@ -523,10 +523,10 @@ TEST(Neuron, testPosNegWeight)
     for (unsigned t = 0; t < 100000; ++t)
     {
         n1.spike();
-        n1.tick(TIME_STEP);
+        n1.step(TIME_STEP);
         n2.spike();
-        n2.tick(TIME_STEP);
-        n3.tick(TIME_STEP);
+        n2.step(TIME_STEP);
+        n3.step(TIME_STEP);
 
         EXPECT_FALSE(n3.fired());
     }
@@ -542,10 +542,10 @@ TEST(Neuron, testMorePosThanNegWeight)
     for (unsigned t = 0; t < 100000; ++t)
     {
         n1.spike();
-        n1.tick(TIME_STEP);
+        n1.step(TIME_STEP);
         n2.spike();
-        n2.tick(TIME_STEP);
-        n3.tick(TIME_STEP);
+        n2.step(TIME_STEP);
+        n3.step(TIME_STEP);
 
         if (n3.fired())
         {
@@ -572,8 +572,8 @@ TEST(Neuron, testWeight)
         for (int t = 0; t < 1000; ++t)
         {
             n1.spike();
-            n1.tick(TIME_STEP);
-            n2.tick(TIME_STEP);
+            n1.step(TIME_STEP);
+            n2.step(TIME_STEP);
             if (n2.fired())
             {
                 spikeFound = t;

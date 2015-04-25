@@ -110,7 +110,7 @@ public:
      * @param Time step.
      * @return True if spike occured.
      */
-    bool tick(float h);
+    bool step(float h);
 
     /**
      * Returns membrane potential value of current neuron.
@@ -121,6 +121,11 @@ public:
      * Checks if the neuron fired and handled axons.
      */
     bool fired() const;
+
+    /**
+     * Checks if the neuron fired in previous step and handled axons.
+     */
+    bool prevFired() const;
 
     /**
      * Returns axons of current neuron.

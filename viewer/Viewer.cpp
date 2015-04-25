@@ -36,7 +36,7 @@
 #include <Viewer.moc>
 #include "EPuckModel.h"
 #include <enki/robots/e-puck/EPuck.h>
-#include <snu/robots/SnuPuck.hpp>
+#include <snu/robots/e-puck/SnuPuck.hpp>
 #include "MarxbotModel.h"
 #include <enki/robots/marxbot/Marxbot.h>
 #ifdef __APPLE__

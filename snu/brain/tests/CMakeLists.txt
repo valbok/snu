@@ -5,8 +5,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 add_executable(mempot mempot.cpp)
 target_link_libraries(mempot brain)
 
-add_executable(CElegansTest CElegansTest.cpp)
-target_link_libraries(CElegansTest brain gtest)
+add_executable(CElegansBrainTest CElegansBrainTest.cpp)
+target_link_libraries(CElegansBrainTest brain gtest)
 
 add_executable(NeuronTest NeuronTest.cpp)
 target_link_libraries(NeuronTest brain gtest)

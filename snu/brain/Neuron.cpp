@@ -85,7 +85,7 @@ float Neuron::getPrevAdditionalValue() const
     return a * (b * (mPrevMembrane - DEFAULT_MEMBRANE) - mPrevAdditional);
 }
 
-bool Neuron::tick(float h)
+bool Neuron::step(float h)
 {
     mPrevFired = mFired;
     mFired = mPrevMembrane > SPIKE_THRESHOLD;
@@ -170,6 +170,11 @@ float Neuron::getMembraneValue() const
 bool Neuron::fired() const
 {
     return mFired;
+}
+
+bool Neuron::prevFired() const
+{
+    return mPrevFired;
 }
 
 const TAxones& Neuron::getAxons() const

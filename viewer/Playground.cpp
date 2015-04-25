@@ -33,7 +33,7 @@
 
 #include "Viewer.h"
 #include <enki/PhysicalEngine.h>
-#include <snu/robots/SnuPuck.hpp>
+#include <snu/robots/e-puck/SnuPuck.hpp>
 #include <enki/robots/marxbot/Marxbot.h>
 #include <QApplication>
 #include <QtGui>
@@ -42,6 +42,9 @@
 using namespace Enki;
 using namespace std;
 using namespace NSnu;
+
+const float TIME_STEP = 0.5;
+const unsigned PERIOD = 1800;
 
 class EnkiPlayground : public ViewerWidget
 {
@@ -139,12 +142,18 @@ public:
 
 	void addDefaultsRobots(World *world)
 	{
-		SnuPuck *epuck = new SnuPuck;
-		epuck->pos = Point(65, 80);
-		epuck->leftSpeed = 5;
-		epuck->rightSpeed = 5;
-		epucks.push_back(epuck);
-		world->addObject(epuck);
+		SnuPuck* snu = new SnuPuck;
+		snu->pos = Point(70, 80);
+		snu->leftSpeed = 5;
+		snu->rightSpeed = 5;
+		epucks.push_back(snu);
+		world->addObject(snu);
+
+		// Gotten from tests. Avoiding any teaching.
+		const float empiricNoseFrequency = 0.12227273;
+		const float empiricFoodFrequency = 0.093585856;
+		snu->setNosePeriodFrequency(empiricNoseFrequency);
+		snu->setFoodPeriodFrequency(empiricFoodFrequency);
 	}
 
 	~EnkiPlayground()
@@ -154,7 +163,12 @@ public:
 	virtual void timerEvent(QTimerEvent * event)
 	{
 		SnuPuck* snu = epucks[0];
-		snu->tick(5);
+		snu->stop();
+		for (int i = 0; i < 250; ++i)
+		{
+			snu->step(TIME_STEP, PERIOD);
+		}
+		snu->move();
 
 		static int fireCounter = 0;
 		doDumpFrames = false;
@@ -199,21 +213,32 @@ public:
 		renderText(10, height()-10, tr("move camera on z by moving mouse while pressing ctrl+shift+right mouse button"));
 		for (unsigned i = 0; i < epucks.size(); ++i)
 		{
-			string s = "sensor0 = " + std::to_string(epucks[i]->infraredSensor0.getDist());
+			string s = "front-front-right = " + std::to_string(epucks[i]->infraredSensor0.getDist());
 			renderText(10, 20*(i+1), s.c_str());
-			s = "sensor7 = " + std::to_string(epucks[i]->infraredSensor7.getDist());
+			s = "front-front-left = " + std::to_string(epucks[i]->infraredSensor7.getDist());
 			renderText(10, 40*(i+1), s.c_str());
 
-			s = "leftSpeed = " + std::to_string(epucks[i]->leftSpeed);
+			s = "back-right = " + std::to_string(epucks[i]->infraredSensor3.getDist());
 			renderText(10, 60*(i+1), s.c_str());
 
-			s = "rightSpeed = " + std::to_string(epucks[i]->rightSpeed);
+			s = "back-left = " + std::to_string(epucks[i]->infraredSensor4.getDist());
 			renderText(10, 80*(i+1), s.c_str());
+
+			s = "right = " + std::to_string(epucks[i]->infraredSensor2.getDist());
+			renderText(10, 100*(i+1), s.c_str());
+
+			s = "left = " + std::to_string(epucks[i]->infraredSensor5.getDist());
+			renderText(10, 120*(i+1), s.c_str());
+
+			s = "leftSpeed = " + std::to_string(epucks[i]->leftSpeed);
+			renderText(10, 140*(i+1), s.c_str());
+
+			s = "rightSpeed = " + std::to_string(epucks[i]->rightSpeed);
+			renderText(10, 160*(i+1), s.c_str());
 		}
 	}
 };
 
-// http://qtnode.net/wiki?title=Qt_with_cmake
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);

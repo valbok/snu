@@ -12,23 +12,33 @@ def read(fn):
     t = []
     V_mean = []
     for l in rdr:
-        t.append(l[0])
+        t.append(np.float64(l[0]))
         V_mean.append(l[1])
 
     return (t, V_mean)
 
-def draw(t, V_mean, title):
-    fig = pl.figure()
-    fig.canvas.set_window_title(title)
-    a = pl.plot()
-    pl.plot(t, V_mean, 'r')
-    pl.title(u"Membrane potentials")
-    pl.ylabel(u'Membrane potentials')
-    pl.grid()
-    pl.xlabel(u"Time")
+fn1 = sys.argv[1]
+(t1, V_mean1) = read(fn1)
+title = fn1
+fn2 = None
+t2 = None
+V_mean2 = None
+if len(sys.argv) > 2:
+    fn2 = sys.argv[2]
+    (t2, V_mean2) = read(fn2)
 
-for i in range(1, len(sys.argv)):
-    (t, V_mean) = read(sys.argv[i])
-    draw(t, V_mean, sys.argv[i])
+fig = pl.figure()
+a = pl.plot()
+pl.plot(t1, V_mean1, 'r')
+if t2 != None: 
+    pl.plot(t2, V_mean2, 'b')
+    pl.legend([fn1, fn2])
+    title = title + " " + fn2;
+
+fig.canvas.set_window_title(title)
+pl.title(u"Membrane potentials")
+pl.ylabel(u'Membrane potentials')
+pl.grid()
+pl.xlabel(u"Time")
 
 pl.show()
