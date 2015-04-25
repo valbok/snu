@@ -9,10 +9,6 @@
 #include "CElegans.hpp"
 #include <cmath> // fabs
 
-
-#include <iostream>
-using namespace std;
-
 namespace NSnu
 {
 
@@ -111,24 +107,10 @@ void CElegans::calculateDirection(unsigned period)
     float f;
     if (getPeriodFrequency(period, f))
     {
-        cout << "nose=" << mAverageNosePeriodFrequency <<endl;
-        cout << "food=" << mAverageFoodPeriodFrequency <<endl;
-        cout << "> " << f;
-
         float toNose = fabs(f - mAverageNosePeriodFrequency);
         float toFood = fabs(f - mAverageFoodPeriodFrequency);
+
         mNoseTouched = toNose < toFood;
-        if (!mNoseTouched)
-        {
-            cout << "           untouched!";
-        }
-        else
-        {
-            cout << " touched?";
-        }
-        cout << " nose=" <<toNose
-            << "; food="<< toFood;
-        cout << endl;
     }
 }
 
