@@ -143,7 +143,7 @@ public:
 	void addDefaultsRobots(World *world)
 	{
 		SnuPuck* snu = new SnuPuck;
-		snu->pos = Point(70, 80);
+		snu->pos = Point(60, 80);
 		snu->leftSpeed = 5;
 		snu->rightSpeed = 5;
 		epucks.push_back(snu);
@@ -164,13 +164,12 @@ public:
 	{
 		SnuPuck* snu = epucks[0];
 		snu->stop();
-		for (int i = 0; i < 250; ++i)
+		for (int i = 0; i < 100; ++i)
 		{
 			snu->step(TIME_STEP, PERIOD);
 		}
 		snu->move();
 
-		static int fireCounter = 0;
 		doDumpFrames = false;
 		QMap<PhysicalObject*, int>::iterator i = bullets.begin();
 		while (i != bullets.end())

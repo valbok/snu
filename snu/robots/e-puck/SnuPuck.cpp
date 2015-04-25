@@ -11,6 +11,7 @@
 
 #include <iostream>
 using namespace std;
+
 namespace NSnu
 {
 
@@ -59,20 +60,25 @@ void SnuPuck::step(float h, unsigned period)
 
 void SnuPuck::drive()
 {
-    //unsigned left[SIDE_MUSCLE_NEURONS][2] = {0};
-    //unsigned right[SIDE_MUSCLE_NEURONS][2] = {0};
-    //int sumLeft = 0, sumRight = 0;
-    /*for (int i = 0; i < SIDE_MUSCLE_NEURONS; ++i)
+    /*
+    unsigned left[SIDE_MUSCLE_NEURONS][2] = {0};
+    unsigned right[SIDE_MUSCLE_NEURONS][2] = {0};
+    int sumLeft = 0, sumRight = 0;
+    mBrain.getMusclesActivites(left, right);
+    for (int i = 0; i < SIDE_MUSCLE_NEURONS; ++i)
     {
-        sl += left[i][0] + left[i][1];
-        sr += right[i][0] + right[i][1];
-    }*/
+        sumLeft += left[i][0] + left[i][1];
+        sumRight += right[i][0] + right[i][1];
+    }
+    mLeftSpeed += sumLeft;
+    mRightSpeed += sumRight;
+    */
+
 
     float dorsalMagnitudes[SIDE_MUSCLE_NEURONS] = {0};
     float ventralMagnitudes[SIDE_MUSCLE_NEURONS] = {0};
     mBrain.getVentralMagnitudes(dorsalMagnitudes);
     mBrain.getDorsalMagnitudes(ventralMagnitudes);
-
     for (int i = 0; i < SIDE_MUSCLE_NEURONS; ++i)
     {
         float diff = dorsalMagnitudes[i] - ventralMagnitudes[i];
