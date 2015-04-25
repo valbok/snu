@@ -15,7 +15,7 @@ namespace NSnu
 CElegans::CElegans() throw()
     : mPeriodIndex(0)
     , mPeriodSpikesCount(0)
-    , mNoseTouched(true)
+    , mNoseTouched(false)
     , mAverageNosePeriodFrequency(0)
     , mAverageFoodPeriodFrequency(0)
     , mSumNoseFrequencies(0)
