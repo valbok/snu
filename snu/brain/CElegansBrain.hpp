@@ -9,7 +9,7 @@
 #ifndef SNU_CELEGANS_BRAIN
 #define SNU_CELEGANS_BRAIN
 
-#include <map>
+#include <unordered_map>
 #include <string>
 #include "Neuron.hpp"
 
@@ -85,7 +85,7 @@ private:
     /**
      * Maps names to neurons.
      */
-    std::map<std::string, Neuron> mNeurons;
+    std::unordered_map<std::string, Neuron> mNeurons;
 };
 
 } // namespace NSnu

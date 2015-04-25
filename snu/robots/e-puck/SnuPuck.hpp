@@ -88,7 +88,7 @@ private:
     int mDirection;
 
     /**
-     * Defines of direction recently has been changed.
+     * Defines that direction recently has been changed.
      * If so, no need to change it again.
      */
     bool mDirectionChanged;
