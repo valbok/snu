@@ -15,7 +15,10 @@ namespace NSnu
 {
 
 /**
- * CElegans model
+ * CElegans behavior model.
+ * Includes connectome and basic behavior like moving forward befor it finds an obstacle
+ * and move backward.
+ * This behavior is controlled by connectome and neuron model.
  */
 class CElegans
 {
@@ -121,7 +124,7 @@ public:
      * @param[out] Right dorsal and ventral muscle neurons.
      */
     void getMusclesActivites(
-        unsigned left[SIDE_MUSCLE_NEURONS][2], 
+        unsigned left[SIDE_MUSCLE_NEURONS][2],
         unsigned right[SIDE_MUSCLE_NEURONS][2]
         ) const;
 
@@ -175,26 +178,30 @@ private:
 
     /**
      * Sum of frequencies to calculate average value if nose touched.
+     * @see mAverageNosePeriodFrequency
      */
     float mSumNoseFrequencies;
 
     /**
      * Sum of frequencies to calculate average value if food activated.
+     * @see mAverageFoodPeriodFrequency
      */
     float mSumFoodFrequencies;
 
     /**
      * Index of iteration to calculate average frequency value if nose touched.
+     * @see mAverageNosePeriodFrequency
      */
     unsigned mTeachNoseIndex;
 
     /**
      * Index of iteration to calculate average frequency value if food activated.
+     * @see mAverageFoodPeriodFrequency
      */
     unsigned mTeachFoodIndex;
 
     /**
-     * CElegans brain.
+     * CElegans connectome brain.
      */
     CElegansBrain mBrain;
 };

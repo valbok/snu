@@ -129,7 +129,6 @@ void SnuPuck::move()
         {
             mDirection = -1;
             rightSpeed = -mRightSpeed;
-
         }
         else
         {

@@ -17,7 +17,7 @@ namespace NSnu
 
 /**
  * Robot with worm's brain.
- * Can drive forward before it finds obstacle. 
+ * Can drive forward before it finds an obstacle.
  * In this case will change direction and before finds another obstacle.
  */
 class SnuPuck : public Enki::EPuck
