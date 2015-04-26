@@ -42,7 +42,8 @@ Based on this idea implemented a logic of changing the locomotion: If frequency 
 
 It allowed to implement robot's brain.
 
-To simulate and test robots used [Enki - The fast 2D robot simulator](http://home.gna.org/enki/).
+To simulate, visualize and test robots used [Enki - The fast 2D robot simulator](http://home.gna.org/enki/).
+
 [E-puck - education robot](http://www.e-puck.org/) was used to inject worm's brain to.
 
 E-puck contains a list of IR sensors which is used to control touching.
