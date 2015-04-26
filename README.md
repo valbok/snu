@@ -46,3 +46,23 @@ To simulate and test robots used [Enki - The fast 2D robot simulator](http://hom
 [E-puck - education robot](http://www.e-puck.org/) was used to inject worm's brain to.
 
 E-puck contains a list of IR sensors which is used to control touching.
+
+# Result
+
+As a real nematode our robot named SnuPuck (extended version of E-puck) can move by stimulating food sensors.
+Can change his locomotion direction suddenly. And initiate backward locomotion in case of nose touching.
+
+And the main point that robot's behavior is controlled by C. elegans brain implemented on spiking neruons model.
+
+# Build
+
+    $ cmake .
+    $ make
+
+Run neuron tests:
+
+    $ ./snu/brain/tests/NeuronTest
+    
+Run Enki playground simulation:
+
+    $ ./viewer/playground
