@@ -9,7 +9,6 @@
 #include "Neuron.hpp"
 #include <cmath>
 #include <cstdlib>
-#include <iostream>
 
 namespace NSnu
 {
