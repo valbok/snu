@@ -1,4 +1,10 @@
-// Bionet sinusoidal movement (locomotion) behavior.
+/**
+ * @author VaL Doroshchuk <valbok@gmail.com>
+ * @date Apr 2015
+ * @copyright VaL Doroshchuk
+ * @license GNU GPL v2
+ * @package Snu
+ */
 
 #include <unistd.h>
 #include <stdio.h>
