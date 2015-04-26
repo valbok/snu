@@ -11,7 +11,7 @@ The main goal is to implement nematode's brain and install it to a robot's body.
 Regarding to real behavior of C. elegans there are few actions that we expect from the robot:
 
 1. Moving forward.
-2. In case of an obstacle move backward.
+2. Move backward in case of an obstacle.
 3. Turn left/right.
 
 # How
@@ -29,8 +29,8 @@ Since purposes of every neuron are quite known, implemented possibility to activ
 3. Left touch sensors: PLML, PVDL, PDEL, PVM and LUAL.
 4. Right touch sensors: PLMR, PVDR, PDER, PVM and LUAR.
 
-Stimulating the food sensors leads to the nematode move forward or backward.
-Stimulating the nose sensors leads [initiating backward locomotion](http://www.wormbook.org/chapters/www_behavior/behavior.html).
+Stimulation the food sensors leads to the nematode move forward or backward.
+Stimulation the nose sensors leads [initiating backward locomotion](http://www.wormbook.org/chapters/www_behavior/behavior.html).
 
 The main problem is to understand when and how the nematode changes its direction.
 After googling found [Motoneurons Dedicated to Either Forward or Backward Locomotion in the Nematode Caenorhabditis elegans](http://www.jneurosci.org/content/30/33/11151.full) which describes the logic of changing the locomotion.
