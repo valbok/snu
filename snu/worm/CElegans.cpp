@@ -183,11 +183,11 @@ void CElegans::touchLeft()
 
 void CElegans::touchRight()
 {
-    mBrain.spike("PLML");
-    mBrain.spike("PVDL");
-    mBrain.spike("PDEL");
+    mBrain.spike("PLMR");
+    mBrain.spike("PVDR");
+    mBrain.spike("PDER");
     mBrain.spike("PVM");
-    mBrain.spike("LUAL");
+    mBrain.spike("LUAR");
 }
 
 void CElegans::getDorsalMagnitudes(float result[]) const
