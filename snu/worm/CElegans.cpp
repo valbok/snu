@@ -109,6 +109,8 @@ void CElegans::calculateDirection(unsigned period)
     {
         float toNose = fabs(f - mAverageNosePeriodFrequency);
         float toFood = fabs(f - mAverageFoodPeriodFrequency);
+
+        mNoseTouched = toNose < toFood;
     }
 }
 

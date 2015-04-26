@@ -6,7 +6,6 @@
 #include <snu/worm/CElegans.hpp>
 #include <gtest/gtest.h>
 #include <iostream>
-#include <fstream>
 
 using namespace NSnu;
 using namespace std;
@@ -88,7 +87,8 @@ TEST(CElegans, testMovingDirection)
     const unsigned foodAfter = 15948;
     for(int t = 0; t < 20000; ++t)
     {
-        if (t < foodBefore || t > foodAfter){
+        if (t < foodBefore || t > foodAfter)
+        {
             worm.findFood();
             touched = false;
         }
@@ -99,7 +99,7 @@ TEST(CElegans, testMovingDirection)
         }
 
         worm.step(step, period);
-        if (touched && t > foodBefore + period)
+        if (touched && t > foodBefore + period + 1)
         {
             EXPECT_EQ(touched, worm.noseTouched());
         }
