@@ -29,4 +29,8 @@ Since purposes of every neuron are quite known, implemented possibility to activ
 3. Left touch sensors: PLML, PVDL, PDEL, PVM and LUAL.
 4. Right touch sensors: PLMR, PVDR, PDER, PVM and LUAR.
 
+Stimulating the food sensors leads to nematoda move forward or backward.
+Stimulating the nose sensors leads [initiating backward locomotion](http://www.wormbook.org/chapters/www_behavior/behavior.html).
+
+
 
