@@ -29,8 +29,9 @@ Since purposes of every neuron are quite known, implemented possibility to activ
 3. Left touch sensors: PLML, PVDL, PDEL, PVM and LUAL.
 4. Right touch sensors: PLMR, PVDR, PDER, PVM and LUAR.
 
-Stimulation the food sensors leads to the nematode move forward or backward.
-Stimulation the nose sensors leads [initiating backward locomotion](http://www.wormbook.org/chapters/www_behavior/behavior.html).
+Stimulation of the food sensors leads the nematode to move forward or backward.
+
+Stimulation of the nose sensors leads [initiating backward locomotion](http://www.wormbook.org/chapters/www_behavior/behavior.html).
 
 The main problem is to understand when and how the nematode changes its direction.
 After googling found [Motoneurons Dedicated to Either Forward or Backward Locomotion in the Nematode Caenorhabditis elegans](http://www.jneurosci.org/content/30/33/11151.full) which describes the logic of changing the locomotion.
