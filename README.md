@@ -30,14 +30,13 @@ Since purposes of every neuron are quite known, implemented possibility to activ
 4. Right touch sensors: PLMR, PVDR, PDER, PVM and LUAR.
 
 Stimulation of the food sensors leads the nematode to move forward or backward.
-
 Stimulation of the nose sensors leads [initiating backward locomotion](http://www.wormbook.org/chapters/www_behavior/behavior.html).
 
 The main problem is to understand when and how the nematode changes its direction.
 After googling found [Motoneurons Dedicated to Either Forward or Backward Locomotion in the Nematode Caenorhabditis elegans](http://www.jneurosci.org/content/30/33/11151.full) which describes the logic of changing the locomotion.
 
 Some testing and investigating our spiking connectome model found that food stimulation and nose touching produces different activities on VA and VB neurons.
-Nose stimulation leads higher frequency of average activities.
+Nose stimulation makes higher frequency of average activities.
 
 Based on this idea implemented a logic of changing the locomotion: If frequency of VA activities is higher than normal then nose has been touched and need to change direction.
 
