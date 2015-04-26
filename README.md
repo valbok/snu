@@ -29,8 +29,20 @@ Since purposes of every neuron are quite known, implemented possibility to activ
 3. Left touch sensors: PLML, PVDL, PDEL, PVM and LUAL.
 4. Right touch sensors: PLMR, PVDR, PDER, PVM and LUAR.
 
-Stimulating the food sensors leads to nematoda move forward or backward.
+Stimulating the food sensors leads to the nematode move forward or backward.
 Stimulating the nose sensors leads [initiating backward locomotion](http://www.wormbook.org/chapters/www_behavior/behavior.html).
 
+The main problem is to understand when and how the nematode changes its direction.
+After googling found [Motoneurons Dedicated to Either Forward or Backward Locomotion in the Nematode Caenorhabditis elegans](http://www.jneurosci.org/content/30/33/11151.full) which describes the logic of changing the locomotion.
 
+Some testing and investigating our spiking connectome model found that food stimulation and nose touching produces different activities on VA and VB neurons.
+Nose stimulation leads higher frequency of average activities.
 
+Based on this idea implemented a logic of changing the locomotion: If frequency of VA activities is higher than normal then nose has been touched and need to change direction.
+
+It allowed to implement robot's brain.
+
+To simulate and test robots used [Enki - The fast 2D robot simulator](http://home.gna.org/enki/).
+[E-puck - education robot](http://www.e-puck.org/) was used to inject worm's brain to.
+
+E-puck contains a list of IR sensors which is used to control touching.
