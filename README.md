@@ -6,6 +6,8 @@ This project inspired by [OpenWorm](http://openworm.org) - open source project d
 
 # Intro
 
+[Концепт переноса сознания червя в робота](http://geektimes.ru/post/249570/)
+
 The main goal is to implement nematode's brain and install it to a robot's body. This robot's body should be ONLY controlled by an artificial neural network. 
 
 Regarding to real behavior of C. elegans there are few actions that we expect from the robot:
