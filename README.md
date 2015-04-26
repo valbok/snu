@@ -16,7 +16,7 @@ Regarding to real behavior of C. elegans there are few actions that we expect fr
 
 # How
 
-Firstly simple spiking model of a neuron has been implemented. Also added Differential Hebbian Learning which allows to correlate weights of synapses to strengthen connections.
+Firstly simple spiking neuron model of Eugene M. Izhikevich has been implemented. Also added Differential Hebbian Learning which allows to correlate weights of synapses to strengthen connections.
 
 After that the [connectome of C. elegans](http://www.wormatlas.org/neuronalwiring.html) nematode used to build neural network based on our spiking neurons.
 
