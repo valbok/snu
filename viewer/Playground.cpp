@@ -150,8 +150,8 @@ public:
 		world->addObject(snu);
 
 		// Gotten from tests. Avoiding any teaching.
-		const float empiricNoseFrequency = 0.12227273;
-		const float empiricFoodFrequency = 0.093585856;
+		const float empiricNoseFrequency = 0.1190404;
+		const float empiricFoodFrequency = 0.087575756;
 		snu->setNosePeriodFrequency(empiricNoseFrequency);
 		snu->setFoodPeriodFrequency(empiricFoodFrequency);
 	}

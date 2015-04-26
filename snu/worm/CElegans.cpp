@@ -80,7 +80,7 @@ void CElegans::teachFoodDirection(float h, unsigned period)
 {
     findFood();
     mBrain.step(h);
-    float f;
+    float f = 0;
     if (getPeriodFrequency(period, f))
     {
         ++mTeachFoodIndex;
@@ -93,7 +93,7 @@ void CElegans::teachNoseDirection(float h, unsigned period)
 {
     touchNose();
     mBrain.step(h);
-    float f;
+    float f = 0;
     if (getPeriodFrequency(period, f))
     {
         ++mTeachNoseIndex;
@@ -104,13 +104,11 @@ void CElegans::teachNoseDirection(float h, unsigned period)
 
 void CElegans::calculateDirection(unsigned period)
 {
-    float f;
+    float f = 0;
     if (getPeriodFrequency(period, f))
     {
         float toNose = fabs(f - mAverageNosePeriodFrequency);
         float toFood = fabs(f - mAverageFoodPeriodFrequency);
-
-        mNoseTouched = toNose < toFood;
     }
 }
 
@@ -390,7 +388,7 @@ void CElegans::getVentralMagnitudes(float result[]) const
 }
 
 void CElegans::getMusclesActivites(
-    unsigned left[SIDE_MUSCLE_NEURONS][2], 
+    unsigned left[SIDE_MUSCLE_NEURONS][2],
     unsigned right[SIDE_MUSCLE_NEURONS][2]
     ) const
 {
@@ -492,7 +490,7 @@ void CElegans::getMusclesActivites(
     right[20][1] = mBrain.fired("MDR21");
     right[21][1] = mBrain.fired("MDR22");
     right[22][1] = mBrain.fired("MDR23");
-    right[23][1] = mBrain.fired("MDR24");    
+    right[23][1] = mBrain.fired("MDR24");
 }
 
 } // namespace NSnu

@@ -35,12 +35,12 @@ TEST(CElegans, testTeachingDirection)
 
     {
         CElegans worm;
-        for(int t = 0; t < tries*2; ++t)
+        for(int t = 0; t < tries * 2; ++t)
         {
             worm.teachNoseDirection(step, period);
         }
 
-        for(int t = 0; t < tries*2; ++t)
+        for(int t = 0; t < tries * 2; ++t)
         {
             worm.teachFoodDirection(step, period);
         }
@@ -51,12 +51,12 @@ TEST(CElegans, testTeachingDirection)
 
     {
         CElegans worm;
-        for(int t = 0; t < tries*10; ++t)
+        for(int t = 0; t < tries * 10; ++t)
         {
             worm.teachNoseDirection(step, period);
         }
 
-        for(int t = 0; t < tries*10; ++t)
+        for(int t = 0; t < tries * 10; ++t)
         {
             worm.teachFoodDirection(step, period);
         }
@@ -88,18 +88,18 @@ TEST(CElegans, testMovingDirection)
     const unsigned foodAfter = 15948;
     for(int t = 0; t < 20000; ++t)
     {
-        if (t < foodBefore || t>foodAfter){
+        if (t < foodBefore || t > foodAfter){
             worm.findFood();
-            touched = true;
+            touched = false;
         }
         else
         {
             worm.touchNose();
-            touched = false;
+            touched = true;
         }
 
         worm.step(step, period);
-        if (t < foodBefore - period + 1 || t > foodAfter + period - 1)
+        if (touched && t > foodBefore + period)
         {
             EXPECT_EQ(touched, worm.noseTouched());
         }
