@@ -71,13 +71,7 @@ Make sure that lib/enki is cloned.
 
 # Build
 
-Firstly build Enki
-
-    $ cd lib/enki; cmake .; make
-
-After that build snu
-    
-    $ cd ../../; cmake .; make
+    $ cmake .; make
 
 Run neuron tests:
 
