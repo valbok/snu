@@ -141,8 +141,8 @@ void SnuPuck::move()
     else
     {
         // Keep previous direction.
-        leftSpeed = mDirection >= 0 ? mLeftSpeed : -mLeftSpeed;
-        rightSpeed = mDirection >= 0 ? mRightSpeed : -mRightSpeed;
+        leftSpeed = mDirection >= 0 ? mLeftSpeed : (mLeftSpeed != 0 ? -mLeftSpeed : 0);
+        rightSpeed = mDirection >= 0 ? mRightSpeed : (mRightSpeed != 0 ? -mRightSpeed : 0);
         // Keep moving.
         if (!touched)
         {
