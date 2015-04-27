@@ -59,7 +59,7 @@ The main point that robot's behavior is controlled by C. elegans brain implement
 
 # Install
 
-Need to recursivelly clone the project:
+Need to recursively clone the project:
 
     $ git clone --recursive git://github.com/valbok/snu.git
     
