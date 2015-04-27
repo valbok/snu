@@ -22,6 +22,11 @@ namespace NSnu
 static const unsigned SIDE_MUSCLE_NEURONS = 24;
 
 /**
+ * Count of muscle sides, ventral and dorsal.
+ */
+static const unsigned MUSCLE_SIDES = 2;
+
+/**
  * CElegans brain model. Does not keep any logic except working with neurones.
  */
 class CElegansBrain

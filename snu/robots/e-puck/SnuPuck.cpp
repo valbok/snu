@@ -74,12 +74,11 @@ void SnuPuck::drive()
     mRightSpeed += sumRight;
     */
 
-
-    float dorsalMagnitudes[SIDE_MUSCLE_NEURONS] = {0};
-    float ventralMagnitudes[SIDE_MUSCLE_NEURONS] = {0};
+    float dorsalMagnitudes[MUSCLE_MAGNITUDES] = {0};
+    float ventralMagnitudes[MUSCLE_MAGNITUDES] = {0};
     mBrain.getVentralMagnitudes(dorsalMagnitudes);
     mBrain.getDorsalMagnitudes(ventralMagnitudes);
-    for (int i = 0; i < SIDE_MUSCLE_NEURONS; ++i)
+    for (int i = 0; i < MUSCLE_MAGNITUDES; ++i)
     {
         float diff = dorsalMagnitudes[i] - ventralMagnitudes[i];
         if (diff < 0)

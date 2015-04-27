@@ -190,7 +190,7 @@ void CElegans::touchRight()
     mBrain.spike("LUAR");
 }
 
-void CElegans::getDorsalMagnitudes(float result[]) const
+void CElegans::getDorsalMagnitudes(float result[MUSCLE_MAGNITUDES]) const
 {
     unsigned i = 0;
     float m = (
@@ -290,7 +290,7 @@ void CElegans::getDorsalMagnitudes(float result[]) const
     result[i++] = m;
 }
 
-void CElegans::getVentralMagnitudes(float result[]) const
+void CElegans::getVentralMagnitudes(float result[MUSCLE_MAGNITUDES]) const
 {
     unsigned i = 0;
     float m = (
@@ -390,8 +390,8 @@ void CElegans::getVentralMagnitudes(float result[]) const
 }
 
 void CElegans::getMusclesActivites(
-    unsigned left[SIDE_MUSCLE_NEURONS][2],
-    unsigned right[SIDE_MUSCLE_NEURONS][2]
+    unsigned left[SIDE_MUSCLE_NEURONS][MUSCLE_SIDES],
+    unsigned right[SIDE_MUSCLE_NEURONS][MUSCLE_SIDES]
     ) const
 {
     left[0][0] = mBrain.fired("MDL01");

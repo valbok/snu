@@ -15,6 +15,12 @@ namespace NSnu
 {
 
 /**
+ * Count of magnitudes of ventral or dorsal muscles.
+ * @see CElegans::getDorsalMagnitudes(), CElegans::getVentralMagnitudes()
+ */
+static const unsigned MUSCLE_MAGNITUDES = 12;
+
+/**
  * CElegans behavior model.
  * Includes connectome and basic behavior like moving forward befor it finds an obstacle
  * and move backward.
@@ -104,18 +110,18 @@ public:
     void setNosePeriodFrequency(float value);
 
     /**
-     * Returns motor ventral neurons activities.
+     * Returns muscle ventral neurons activities.
      *
      * @param[out] Result vector.
      */
-    void getVentralMagnitudes(float result[]) const;
+    void getVentralMagnitudes(float result[MUSCLE_MAGNITUDES]) const;
 
     /**
-     * Returns motor dorsal neurons activities.
+     * Returns muscle dorsal neurons activities.
      *
      * @param[out] Result vector.
      */
-    void getDorsalMagnitudes(float result[]) const;
+    void getDorsalMagnitudes(float result[MUSCLE_MAGNITUDES]) const;
 
     /**
      * Returns spikes of muscule neurones.
@@ -124,8 +130,8 @@ public:
      * @param[out] Right dorsal and ventral muscle neurons.
      */
     void getMusclesActivites(
-        unsigned left[SIDE_MUSCLE_NEURONS][2],
-        unsigned right[SIDE_MUSCLE_NEURONS][2]
+        unsigned left[SIDE_MUSCLE_NEURONS][MUSCLE_SIDES],
+        unsigned right[SIDE_MUSCLE_NEURONS][MUSCLE_SIDES]
         ) const;
 
 private:
