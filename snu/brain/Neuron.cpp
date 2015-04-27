@@ -100,9 +100,13 @@ bool Neuron::step(float h)
         mCurAdditional = mPrevAdditional + h * getPrevAdditionalValue();
     }
 
-    for (unsigned i = 0; i < mDendrites.size(); ++i)
+    // Only if spike occured need to teach connections.
+    if (mFired)
     {
-        mDendrites[i].source->teachSynWeight(mDendrites[i].axonId, mFired, mPrevFired);
+        for (unsigned i = 0; i < mDendrites.size(); ++i)
+        {
+            mDendrites[i].source->teachSynWeight(mDendrites[i].axonId, mFired, mPrevFired);
+        }
     }
 
     // Defines how the synaptic current should fade down.

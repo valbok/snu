@@ -227,7 +227,8 @@ TEST(Neuron, testTeachSynWeight_01_10)
     EXPECT_TRUE(n1.fired());
     EXPECT_FALSE(n2.fired());
 
-    EXPECT_EQ(weight - 1, n1.getAxons()[0].weight);
+    // No changes expected if no spikes occured.
+    EXPECT_EQ(weight, n1.getAxons()[0].weight);
 }
 
 TEST(Neuron, testTeachSynWeight_01_11)
@@ -317,8 +318,8 @@ TEST(Neuron, testTeachSynWeight_10_10)
     n2.step(TIME_STEP);
     EXPECT_FALSE(n2.fired());
 
-    // @todo Check if it is needed to be 0
-    EXPECT_EQ(weight + 2, n1.getAxons()[0].weight);
+    // Since no 2 spikes occured no need to increase weight.
+    EXPECT_EQ(weight + 1, n1.getAxons()[0].weight);
 }
 
 TEST(Neuron, testTeachSynWeight_10_11)
