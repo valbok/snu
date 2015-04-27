@@ -57,6 +57,18 @@ Can change his locomotion direction suddenly. And initiate backward locomotion i
 
 The main point that robot's behavior is controlled by C. elegans brain implemented on spiking neruons model.
 
+# Install
+
+Need to recursivelly clone the project:
+
+    $ git clone --recursive git://github.com/valbok/snu.git
+    
+or need to init submodules
+
+    ~/snu$ git submodule update --init --recursive
+
+Make sure that lib/enki is cloned.
+
 # Build
 
     $ cmake .
