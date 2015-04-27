@@ -134,7 +134,7 @@ public:
         unsigned right[SIDE_MUSCLE_NEURONS][MUSCLE_SIDES]
         ) const;
 
-private:
+protected:
 
     /**
      * Provides average frequency per period.
