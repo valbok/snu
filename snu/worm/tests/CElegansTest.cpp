@@ -28,8 +28,8 @@ TEST(CElegans, testTeachingDirection)
             worm.teachFoodDirection(step, period);
         }
 
-        EXPECT_FLOAT_EQ(0.098888889, worm.getFoodPeriodFrequency());
-        EXPECT_FLOAT_EQ(0.12333333, worm.getNosePeriodFrequency());
+        EXPECT_FLOAT_EQ(0.10777777, worm.getFoodPeriodFrequency());
+        EXPECT_FLOAT_EQ(0.125, worm.getNosePeriodFrequency());
     }
 
     {
@@ -44,8 +44,8 @@ TEST(CElegans, testTeachingDirection)
             worm.teachFoodDirection(step, period);
         }
 
-        EXPECT_FLOAT_EQ(0.095277779, worm.getFoodPeriodFrequency());
-        EXPECT_FLOAT_EQ(0.12333333, worm.getNosePeriodFrequency());
+        EXPECT_FLOAT_EQ(0.10472222, worm.getFoodPeriodFrequency());
+        EXPECT_FLOAT_EQ(0.12583333, worm.getNosePeriodFrequency());
     }
 
     {
@@ -60,8 +60,8 @@ TEST(CElegans, testTeachingDirection)
             worm.teachFoodDirection(step, period);
         }
 
-        EXPECT_FLOAT_EQ(0.087575756, worm.getFoodPeriodFrequency());
-        EXPECT_FLOAT_EQ(0.1190404, worm.getNosePeriodFrequency());
+        EXPECT_FLOAT_EQ(0.093131311, worm.getFoodPeriodFrequency());
+        EXPECT_FLOAT_EQ(0.12636364, worm.getNosePeriodFrequency());
     }
 }
 
