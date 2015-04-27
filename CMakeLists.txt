@@ -16,6 +16,8 @@ endif()
 
 include_directories(lib/gtest)
 include_directories(lib/gtest/include)
+# Include viewer there to allow to build enki viewer from snu
+include_directories(lib/enki/viewer)
 
 add_library(gtest
     lib/gtest/src/gtest_main.cc 
