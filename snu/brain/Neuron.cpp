@@ -108,7 +108,7 @@ bool Neuron::step(float h)
     // Defines how the synaptic current should fade down.
     const float expireSpeed = 4.0f;
     const float expireFactor = exp(-h / expireSpeed);
-    const float teachedWeightExpireSpeed = 500.0f;
+    const float teachedWeightExpireSpeed = 25.0f;
     const float teachedWeightExpireFactor = exp(-h / teachedWeightExpireSpeed);
     for (unsigned i = 0; i < mAxones.size(); ++i)
     {
@@ -186,22 +186,13 @@ const TDendrites& Neuron::getDendrites() const
 
 float SAxon::getWeight() const
 {
-    const float expireSpeed = 50;
-    float result = baseWeight;
-    if (teachedWeight != 0)
-    {
-        float value = exp(-teachedWeight / expireSpeed);
-        if (baseWeight < 0)
-        {
-            result -= value;
-        }
-        else
-        {
-            result += value;
-        }
-    }
+    const float expireSpeed = 20;
+    // Should not be more than this max value.
+    const float maxTeachedWeight = 100;
+    float teachedValue = maxTeachedWeight * (1 - exp(-teachedWeight / expireSpeed));
+    float value = baseWeight < 0 ? -teachedValue : teachedValue;
 
-    return result;
+    return baseWeight + value;
 }
 
 } // namespace NSnu

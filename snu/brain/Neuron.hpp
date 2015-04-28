@@ -43,6 +43,7 @@ struct SAxon
 
     /**
      * Returns calculated weight of current axon.
+     * Prevents increasing weight too fast.
      */
     float getWeight() const;
 };

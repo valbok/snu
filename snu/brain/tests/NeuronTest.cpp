@@ -371,6 +371,33 @@ TEST(Neuron, testTeachSynWeight_11_11)
     EXPECT_TRUE(n1.getAxons()[0].getWeight() > weight);
 }
 
+TEST(Neuron, testFadingTeachedSynWeight)
+{
+    const float weight = 100.0f;
+    const float teachSpeed = 1;
+    Neuron n1(EXT_I);
+    Neuron n2(EXT_I);
+    n1.connectTo(&n2, weight);
+    float teachedWeight;
+
+    n1.spike();
+    n2.spike();
+    teachedWeight = n1.getAxons()[0].teachedWeight;
+    EXPECT_EQ(0, teachedWeight);
+    n1.step(TIME_STEP);
+    teachedWeight = n1.getAxons()[0].teachedWeight;
+    EXPECT_EQ(0, teachedWeight);
+    n2.step(TIME_STEP);
+    teachedWeight = n1.getAxons()[0].teachedWeight;
+    EXPECT_EQ(teachSpeed, teachedWeight);
+    EXPECT_TRUE(weight + teachedWeight < n1.getAxons()[0].getWeight());
+
+    n1.step(TIME_STEP);
+    teachedWeight = n1.getAxons()[0].teachedWeight;
+    // Fading.
+    EXPECT_TRUE(teachSpeed > teachedWeight);
+}
+
 TEST(Neuron, testAutoSpikeWoExt)
 {
     Neuron n1(0), n2(0);
