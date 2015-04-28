@@ -13,14 +13,10 @@
 namespace NSnu
 {
 
-/**
- * Default value for membrane potential.
- */
+/// Default value for membrane potential.
 const float DEFAULT_MEMBRANE = -60.0f;
 
-/**
- * Threshold of membrane potential to make a spike.
- */
+/// Threshold of membrane potential to make a spike.
 const float SPIKE_THRESHOLD = 35.0f;
 
 Neuron::Neuron(float extI) throw()

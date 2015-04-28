@@ -57,7 +57,7 @@ int main()
         worm.getDorsalMagnitudes(dorsalMagnitudes);
         worm.getVentralMagnitudes(ventralMagnitudes);
         float dm = 0, vm = 0;
-        for (int i = 0; i < 12; ++i)
+        for (int i = 0; i < MUSCLE_MAGNITUDES; ++i)
         {
             dm += dorsalMagnitudes[i];
             vm += ventralMagnitudes[i];
