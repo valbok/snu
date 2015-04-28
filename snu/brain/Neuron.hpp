@@ -27,9 +27,14 @@ struct SAxon
     Neuron* target;
 
     /**
-     * Weight of the connection. Can be negative.
+     * Const weight of the connection. Can be negative.
      */
-    float weight;
+    const float baseWeight;
+
+    /**
+     * Teached weight of the connection. Always positive.
+     */
+    float teachedWeight;
 
     /**
      * Synaptic current of previous call.
@@ -40,6 +45,11 @@ struct SAxon
      * Synaptic current of last call.
      */
     float curSynI;
+
+    /**
+     * Returns calculated weight of current axon.
+     */
+    float getWeight() const;
 };
 
 /**

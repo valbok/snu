@@ -37,9 +37,10 @@ Neuron::Neuron(float extI) throw()
 
 void Neuron::connectTo(Neuron* target, float weight)
 {
-    const float prevSynCurrent = 0;
-    const float curSynCurrent = 0;
-    mAxones.push_back({target, weight, prevSynCurrent, curSynCurrent});
+    const float teachedWeight = 0;
+    const float prevSynI = 0;
+    const float curSynI = 0;
+    mAxones.push_back({target, weight, teachedWeight, prevSynI, curSynI});
 
     target->connectFrom(this, mAxones.size() - 1);
 }
@@ -110,13 +111,14 @@ bool Neuron::step(float h)
     }
 
     // Defines how the synaptic current should fade down.
-    const float expireFactor = exp(-h / 4.0f);
+    const float expireSpeed = 4.0f;
+    const float expireFactor = exp(-h / expireSpeed);
     for (unsigned i = 0; i < mAxones.size(); ++i)
     {
         SAxon& target = mAxones.at(i);
 
         target.curSynI = mFired ? 1.0f : (target.prevSynI * expireFactor);
-        target.target->teachSynI(target.curSynI * target.weight);
+        target.target->teachSynI(target.curSynI * target.getWeight());
         target.prevSynI = target.curSynI;
     }
 
@@ -144,23 +146,17 @@ float Neuron::getSynI() const
 
 bool Neuron::teachSynWeight(unsigned axonId, unsigned curTarget, unsigned prevTarget)
 {
-    if (axonId >= mAxones.size())
+    // No need to teach connection if no spike occured on current neuron.
+    if (axonId >= mAxones.size() || mFired == false || curTarget == 0)
     {
         return false;
     }
 
-    const int teachFactor = 1;
-    int value = teachFactor * (mFired - mPrevFired) * (curTarget - prevTarget);
+    const float teachSpeed = 0.1;
+    float value = teachSpeed * (mFired - mPrevFired) * (curTarget - prevTarget);
 
     SAxon& target = mAxones.at(axonId);
-    if (target.weight < 0)
-    {
-        target.weight -= value;
-    }
-    else
-    {
-        target.weight += value;
-    }
+    target.teachedWeight += value;
 
     return true;
 }
@@ -188,6 +184,26 @@ const TAxones& Neuron::getAxons() const
 const TDendrites& Neuron::getDendrites() const
 {
     return mDendrites;
+}
+
+float SAxon::getWeight() const
+{
+    const float expireSpeed = 50;
+    float result = baseWeight;
+    if (teachedWeight != 0)
+    {
+        float value = exp(-teachedWeight / expireSpeed);
+        if (baseWeight < 0)
+        {
+            result -= value;
+        }
+        else
+        {
+            result += value;
+        }
+    }
+
+    return result;
 }
 
 } // namespace NSnu

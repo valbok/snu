@@ -26,7 +26,7 @@ TEST(Neuron, testConnectTo)
     EXPECT_EQ(1, n2.getDendrites().size());
     EXPECT_EQ(0, n2.getAxons().size());
     EXPECT_EQ(&n2, n1.getAxons()[0].target);
-    EXPECT_EQ(50.0f, n1.getAxons()[0].weight);
+    EXPECT_EQ(50.0f, n1.getAxons()[0].baseWeight);
     EXPECT_EQ(0.0f, n1.getAxons()[0].prevSynI);
     EXPECT_EQ(0.0f, n1.getAxons()[0].curSynI);
     EXPECT_EQ(&n1, n2.getDendrites()[0].source);
@@ -94,7 +94,7 @@ TEST(Neuron, testTeachSynWeight_00_00)
     n2.step(TIME_STEP);
     EXPECT_FALSE(n1.fired());
     EXPECT_FALSE(n2.fired());
-    EXPECT_EQ(weight, n1.getAxons()[0].weight);
+    EXPECT_EQ(weight, n1.getAxons()[0].getWeight());
 }
 
 TEST(Neuron, testTeachSynWeight_00_01)
@@ -116,7 +116,7 @@ TEST(Neuron, testTeachSynWeight_00_01)
     EXPECT_FALSE(n1.fired());
     EXPECT_TRUE(n2.fired());
 
-    EXPECT_EQ(weight, n1.getAxons()[0].weight);
+    EXPECT_EQ(weight, n1.getAxons()[0].getWeight());
 }
 
 TEST(Neuron, testTeachSynWeight_00_10)
@@ -138,7 +138,7 @@ TEST(Neuron, testTeachSynWeight_00_10)
     EXPECT_FALSE(n1.fired());
     EXPECT_FALSE(n2.fired());
 
-    EXPECT_EQ(weight, n1.getAxons()[0].weight);
+    EXPECT_EQ(weight, n1.getAxons()[0].getWeight());
 }
 
 TEST(Neuron, testTeachSynWeight_00_11)
@@ -161,7 +161,7 @@ TEST(Neuron, testTeachSynWeight_00_11)
     EXPECT_FALSE(n1.fired());
     EXPECT_TRUE(n2.fired());
 
-    EXPECT_EQ(weight, n1.getAxons()[0].weight);
+    EXPECT_EQ(weight, n1.getAxons()[0].getWeight());
 }
 
 TEST(Neuron, testTeachSynWeight_01_00)
@@ -177,7 +177,7 @@ TEST(Neuron, testTeachSynWeight_01_00)
     n2.step(TIME_STEP);
     EXPECT_TRUE(n1.fired());
     EXPECT_FALSE(n2.fired());
-    EXPECT_EQ(weight, n1.getAxons()[0].weight);
+    EXPECT_EQ(weight, n1.getAxons()[0].getWeight());
 }
 
 TEST(Neuron, testTeachSynWeight_01_01)
@@ -191,7 +191,7 @@ TEST(Neuron, testTeachSynWeight_01_01)
     n2.spike();
     n1.step(TIME_STEP);
     n2.step(TIME_STEP);
-    EXPECT_EQ(weight + 1, n1.getAxons()[0].weight);
+    EXPECT_TRUE(n1.getAxons()[0].getWeight() > weight);
 }
 
 TEST(Neuron, testTeachSynNegWeight_01_01)
@@ -205,7 +205,7 @@ TEST(Neuron, testTeachSynNegWeight_01_01)
     n2.spike();
     n1.step(TIME_STEP);
     n2.step(TIME_STEP);
-    EXPECT_EQ(weight - 1, n1.getAxons()[0].weight);
+    EXPECT_TRUE(n1.getAxons()[0].getWeight() < weight);
 }
 
 TEST(Neuron, testTeachSynWeight_01_10)
@@ -228,7 +228,7 @@ TEST(Neuron, testTeachSynWeight_01_10)
     EXPECT_FALSE(n2.fired());
 
     // No changes expected if no spikes occured.
-    EXPECT_EQ(weight, n1.getAxons()[0].weight);
+    EXPECT_EQ(weight, n1.getAxons()[0].getWeight());
 }
 
 TEST(Neuron, testTeachSynWeight_01_11)
@@ -251,7 +251,7 @@ TEST(Neuron, testTeachSynWeight_01_11)
     EXPECT_TRUE(n1.fired());
     EXPECT_TRUE(n2.fired());
 
-    EXPECT_EQ(weight, n1.getAxons()[0].weight);
+    EXPECT_EQ(weight, n1.getAxons()[0].getWeight());
 }
 
 TEST(Neuron, testTeachSynWeight_10_00)
@@ -272,7 +272,7 @@ TEST(Neuron, testTeachSynWeight_10_00)
     n2.step(TIME_STEP);
     EXPECT_FALSE(n2.fired());
 
-    EXPECT_EQ(weight, n1.getAxons()[0].weight);
+    EXPECT_EQ(weight, n1.getAxons()[0].getWeight());
 }
 
 TEST(Neuron, testTeachSynWeight_10_01)
@@ -294,7 +294,8 @@ TEST(Neuron, testTeachSynWeight_10_01)
     n2.step(TIME_STEP);
     EXPECT_TRUE(n2.fired());
 
-    EXPECT_EQ(weight - 1, n1.getAxons()[0].weight);
+    // No changes in weight since no spike occured.
+    EXPECT_EQ(weight, n1.getAxons()[0].getWeight());
 }
 
 TEST(Neuron, testTeachSynWeight_10_10)
@@ -311,15 +312,14 @@ TEST(Neuron, testTeachSynWeight_10_10)
     n2.step(TIME_STEP);
     EXPECT_TRUE(n2.fired());
 
-    EXPECT_EQ(weight + 1, n1.getAxons()[0].weight);
+    EXPECT_TRUE(n1.getAxons()[0].getWeight() > weight);
 
     n1.step(TIME_STEP);
     EXPECT_FALSE(n1.fired());
     n2.step(TIME_STEP);
     EXPECT_FALSE(n2.fired());
 
-    // Since no 2 spikes occured no need to increase weight.
-    EXPECT_EQ(weight + 1, n1.getAxons()[0].weight);
+    EXPECT_TRUE(n1.getAxons()[0].getWeight() > weight);
 }
 
 TEST(Neuron, testTeachSynWeight_10_11)
@@ -336,7 +336,7 @@ TEST(Neuron, testTeachSynWeight_10_11)
     n2.step(TIME_STEP);
     EXPECT_TRUE(n2.fired());
 
-    EXPECT_EQ(weight + 1, n1.getAxons()[0].weight);
+    EXPECT_TRUE(n1.getAxons()[0].getWeight() > weight);
 
     n1.step(TIME_STEP);
     EXPECT_FALSE(n1.fired());
@@ -344,7 +344,7 @@ TEST(Neuron, testTeachSynWeight_10_11)
     n2.step(TIME_STEP);
     EXPECT_TRUE(n2.fired());
 
-    EXPECT_EQ(weight + 1, n1.getAxons()[0].weight);
+    EXPECT_TRUE(n1.getAxons()[0].getWeight() > weight);
 }
 
 TEST(Neuron, testTeachSynWeight_11_11)
@@ -361,7 +361,7 @@ TEST(Neuron, testTeachSynWeight_11_11)
     n2.step(TIME_STEP);
     EXPECT_TRUE(n2.fired());
 
-    EXPECT_EQ(weight + 1, n1.getAxons()[0].weight);
+    EXPECT_TRUE(n1.getAxons()[0].getWeight() > weight);
 
     n1.spike();
     n1.step(TIME_STEP);
@@ -370,7 +370,7 @@ TEST(Neuron, testTeachSynWeight_11_11)
     n2.step(TIME_STEP);
     EXPECT_TRUE(n2.fired());
 
-    EXPECT_EQ(weight + 1, n1.getAxons()[0].weight);
+    EXPECT_TRUE(n1.getAxons()[0].getWeight() > weight);
 }
 
 TEST(Neuron, testAutoSpikeWoExt)
