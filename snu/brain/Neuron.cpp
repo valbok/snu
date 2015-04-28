@@ -34,9 +34,8 @@ Neuron::Neuron(float extI) throw()
 void Neuron::connectTo(Neuron* target, float weight)
 {
     const float teachedWeight = 0;
-    const float prevSynI = 0;
-    const float curSynI = 0;
-    mAxones.push_back({target, weight, teachedWeight, prevSynI, curSynI});
+    const float synI = 0;
+    mAxones.push_back({target, weight, teachedWeight, synI});
 
     target->connectFrom(this, mAxones.size() - 1);
 }
@@ -109,13 +108,16 @@ bool Neuron::step(float h)
     // Defines how the synaptic current should fade down.
     const float expireSpeed = 4.0f;
     const float expireFactor = exp(-h / expireSpeed);
+    const float teachedWeightExpireSpeed = 500.0f;
+    const float teachedWeightExpireFactor = exp(-h / teachedWeightExpireSpeed);
     for (unsigned i = 0; i < mAxones.size(); ++i)
     {
         SAxon& target = mAxones.at(i);
 
-        target.curSynI = mFired ? 1.0f : (target.prevSynI * expireFactor);
-        target.target->teachSynI(target.curSynI * target.getWeight());
-        target.prevSynI = target.curSynI;
+        target.synI = mFired ? 1.0f : (target.synI * expireFactor);
+        target.target->teachSynI(target.synI * target.getWeight());
+        // Exponentially decrease teached value.
+        target.teachedWeight *= teachedWeightExpireFactor;
     }
 
     mSynI = 0.0f;
@@ -148,7 +150,7 @@ bool Neuron::teachSynWeight(unsigned axonId, unsigned curTarget, unsigned prevTa
         return false;
     }
 
-    const float teachSpeed = 0.1;
+    const float teachSpeed = 1;
     float value = teachSpeed * (mFired - mPrevFired) * (curTarget - prevTarget);
 
     SAxon& target = mAxones.at(axonId);

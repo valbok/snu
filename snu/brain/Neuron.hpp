@@ -37,14 +37,9 @@ struct SAxon
     float teachedWeight;
 
     /**
-     * Synaptic current of previous call.
-     */
-    float prevSynI;
-
-    /**
      * Synaptic current of last call.
      */
-    float curSynI;
+    float synI;
 
     /**
      * Returns calculated weight of current axon.

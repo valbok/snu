@@ -27,8 +27,7 @@ TEST(Neuron, testConnectTo)
     EXPECT_EQ(0, n2.getAxons().size());
     EXPECT_EQ(&n2, n1.getAxons()[0].target);
     EXPECT_EQ(50.0f, n1.getAxons()[0].baseWeight);
-    EXPECT_EQ(0.0f, n1.getAxons()[0].prevSynI);
-    EXPECT_EQ(0.0f, n1.getAxons()[0].curSynI);
+    EXPECT_EQ(0.0f, n1.getAxons()[0].synI);
     EXPECT_EQ(&n1, n2.getDendrites()[0].source);
     EXPECT_EQ(0, n2.getDendrites()[0].axonId);
 }
@@ -68,17 +67,16 @@ TEST(Neuron, testTeachSynI)
 
     n1.step(TIME_STEP);
     EXPECT_TRUE(n1.fired());
-    EXPECT_EQ(1.0f, n1.getAxons()[0].curSynI);
+    EXPECT_EQ(1.0f, n1.getAxons()[0].synI);
     EXPECT_EQ(weight, n2.getSynI());
 
     n2.step(TIME_STEP);
-    EXPECT_EQ(1.0f, n1.getAxons()[0].curSynI);
-    EXPECT_EQ(1.0f, n1.getAxons()[0].prevSynI);
+    EXPECT_EQ(1.0f, n1.getAxons()[0].synI);
     EXPECT_EQ(0.0f, n2.getSynI());
 
     n1.step(TIME_STEP);
     EXPECT_FALSE(n1.fired());
-    EXPECT_TRUE(1.0f > n1.getAxons()[0].curSynI);
+    EXPECT_TRUE(1.0f > n1.getAxons()[0].synI);
     EXPECT_TRUE(weight > n2.getSynI());
 }
 
