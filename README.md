@@ -1,6 +1,6 @@
 # Snu
 
-Spiking NeUrons or Snu is a simulation project to model the C. elegans nematode based on a [Simple Model of Spiking Neurons](http://www.izhikevich.org/publications/spikes.htm) of [Eugene M. Izhikevich](http://www.izhikevich.org/).
+Snu is Not neUronet -  is a simulation project to model the C. elegans nematode based on a [Simple Model of Spiking Neurons](http://www.izhikevich.org/publications/spikes.htm) of [Eugene M. Izhikevich](http://www.izhikevich.org/).
 
 This project inspired by [OpenWorm](http://openworm.org) - open source project dedicated to creating a virtual C. elegans nematode in a computer.
 
