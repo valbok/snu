@@ -10,32 +10,39 @@
 #include <enki/PhysicalEngine.h>
 #include <snu/robots/e-puck/SnuPuck.hpp>
 #include <enki/robots/marxbot/Marxbot.h>
+#include <enki/robots/thymio2/Thymio2.h>
 #include <QApplication>
 #include <QtGui>
 #include <iostream>
+
+#ifdef USE_SDL
+#include <SDL.h>
+#endif
+
+/*!	\file Studio.cpp
+	\brief Test of the Qt-based viewer widget
+*/
 
 using namespace Enki;
 using namespace std;
 using namespace NSnu;
 
-const float TIME_STEP = 0.5;
-const unsigned PERIOD = 1800;
-
 class EnkiPlayground : public ViewerWidget
 {
 protected:
-	bool subjectiveView;
+	#ifdef USE_SDL
+	QVector<SDL_Joystick *> joysticks;
+	#endif
 	QVector<SnuPuck*> epucks;
 	QMap<PhysicalObject*, int> bullets;
 
 public:
 	EnkiPlayground(World *world, QWidget *parent = 0) :
-		ViewerWidget(world, parent),
-		subjectiveView(false)
+		ViewerWidget(world, parent)
 	{
+		#define PROBLEM_CENTERED_THYMIO2
 		#define PROBLEM_GENERIC_TOY
 		#define PROBLEM_BALL_LINE
-		//#define PROBLEM_LONE_EPUCK
 
 		#ifdef PROBLEM_GENERIC_TOY
 		{
@@ -54,11 +61,10 @@ public:
 			world->addObject(o);
 		}
 
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 20; i++)
 		{
 			PhysicalObject* o = new PhysicalObject;
 			o->pos = Point(UniformRand(20, 100)(), UniformRand(20, 100)());
-			//o->pos = Point(80, 50);
 			o->setCylindric(1, 1, 10);
 			o->setColor(Color(0.9, 0.2, 0.2));
 			o->dryFrictionCoefficient = 0.01;
@@ -74,11 +80,10 @@ public:
 		{
 			PhysicalObject* o = new PhysicalObject;
 			PhysicalObject::Hull hull(Enki::PhysicalObject::Part(p2, 3));
-			o->setCustomHull(hull, 20);
+			o->setCustomHull(hull, 30);
 			o->setColor(Color(0.2, 0.1, 0.6));
 			o->collisionElasticity = 0.2;
 			o->pos = Point(UniformRand(20, 100)(), UniformRand(20, 100)());
-			//o->pos = Point(75, 50);
 			world->addObject(o);
 		}
 
@@ -91,8 +96,7 @@ public:
 			o->setCustomHull(hull, 60);
 			o->setColor(Color(0.2, 0.4, 0.6));
 			o->collisionElasticity = 0.2;
-			//o->pos = Point(UniformRand(20, 100)(), UniformRand(20, 100)());
-			o->pos = Point(70, 50);
+			o->pos = Point(UniformRand(20, 100)(), UniformRand(20, 100)());
 			world->addObject(o);
 		}
 		#endif // PROBLEM_GENERIC_TOY
@@ -109,16 +113,47 @@ public:
 		}
 		#endif // PROBLEM_BALL_LINE
 
+		#ifdef PROBLEM_LONE_EPUCK
 		addDefaultsRobots(world);
+		#endif // PROBLEM_LONE_EPUCK
 
-		altitude = 150;
-		pos = QPointF(0,60);
+		#ifdef USE_SDL
+		if((SDL_Init(SDL_INIT_JOYSTICK)==-1))
+		{
+			cerr << "Error : Could not initialize SDL: " << SDL_GetError() << endl;
+			addDefaultsRobots(world);
+			return;
+		}
+
+		int joystickCount = SDL_NumJoysticks();
+		for (int i = 0; i < joystickCount; ++i)
+		{
+			SDL_Joystick* joystick = SDL_JoystickOpen(i);
+			if (!joystick)
+			{
+				cerr << "Error: Can't open joystick " << i << endl;
+				continue;
+			}
+			if (SDL_JoystickNumAxes(joystick) < 2)
+			{
+				cerr << "Error: not enough axis on joystick" << i<< endl;
+				SDL_JoystickClose(joystick);
+				continue;
+			}
+			joysticks.push_back(joystick);
+
+			addDefaultsRobots(world);
+		}
+		cout << "Added " << joystickCount << " controlled e-pucks." << endl;
+		#else // USE_SDL
+		addDefaultsRobots(world);
+		#endif // USE_SDL
 	}
 
 	void addDefaultsRobots(World *world)
 	{
 		SnuPuck* snu = new SnuPuck;
-		snu->pos = Point(60, 80);
+		snu->pos = Point(70, 80);
 		snu->leftSpeed = 5;
 		snu->rightSpeed = 5;
 		epucks.push_back(snu);
@@ -133,12 +168,19 @@ public:
 
 	~EnkiPlayground()
 	{
+		#ifdef USE_SDL
+		for (int i = 0; i < joysticks.size(); ++i)
+			SDL_JoystickClose(joysticks[i]);
+		SDL_Quit();
+		#endif
 	}
 
 	virtual void timerEvent(QTimerEvent * event)
 	{
 		SnuPuck* snu = epucks[0];
 		snu->stop();
+		const float TIME_STEP = 0.5;
+		const unsigned PERIOD = 1800;
 		for (int i = 0; i < 100; ++i)
 		{
 			snu->step(TIME_STEP, PERIOD);
@@ -164,19 +206,6 @@ public:
 			}
 		}
 		ViewerWidget::timerEvent(event);
-	}
-
-	virtual void keyPressEvent ( QKeyEvent * event )
-	{
-		if (event->key() == Qt::Key_C)
-		{
-			subjectiveView = !subjectiveView;
-			if (subjectiveView)
-				pitch = M_PI/8;
-			event->accept();
-		}
-		else
-			ViewerWidget::keyPressEvent(event);
 	}
 
 	virtual void sceneCompletedHook()
@@ -213,6 +242,7 @@ public:
 	}
 };
 
+// http://qtnode.net/wiki?title=Qt_with_cmake
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
@@ -224,10 +254,11 @@ int main(int argc, char *argv[])
 		gt = QGLWidget::convertToGLFormat(QImage(app.arguments().last()));
 	igt = !gt.isNull();
 	#if QT_VERSION >= QT_VERSION_CHECK(4,7,0)
-	World world(120, Color(0.9, 0.9, 0.9), igt ? World::GroundTexture(gt.width(), gt.height(), (const uint32_t*)gt.constBits()) : World::GroundTexture());
+	const uint32_t *bits = (const uint32_t*)gt.constBits();
 	#else
-	World world(120, Color(0.9, 0.9, 0.9), igt ? World::GroundTexture(gt.width(), gt.height(), (uint32_t*)gt.bits()) : World::GroundTexture());
+	uint32_t *bits = (uint32_t*)gt.bits();
 	#endif
+	World world(120, Color(0.9, 0.9, 0.9), igt ? World::GroundTexture(gt.width(), gt.height(), bits) : World::GroundTexture());
 	EnkiPlayground viewer(&world);
 
 	viewer.show();
