@@ -14,21 +14,15 @@ else()
     message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
+include_directories(src/brain)
 include_directories(lib/gtest)
 include_directories(lib/gtest/include)
-# Include viewer there to allow to build enki viewer from snu
-include_directories(lib/enki/viewer)
 
 add_library(gtest
     lib/gtest/src/gtest_main.cc 
     lib/gtest/src/gtest-all.cc)
 
-add_subdirectory(lib/enki)
+add_subdirectory(src/brain)
+add_subdirectory(src/brain/tests)
 
-add_subdirectory(snu/brain)
-add_subdirectory(snu/brain/tests)
-add_subdirectory(snu/worm)
-add_subdirectory(snu/worm/tests)
-add_subdirectory(snu/robots/e-puck)
-add_subdirectory(snu/robots/e-puck/tests)
-add_subdirectory(viewer)
+
