@@ -110,12 +110,12 @@ public:
     /**
      * Returns membrane potential value of current neuron.
      */
-    float memVal() const;
+    float mem() const;
 
     /**
      * Returns synaptic current. Sum from all dendrite neurons.
      */
-    float synVal() const;
+    float syn() const;
 
     /**
      * Checks if the neuron fired and handled axons.

@@ -38,10 +38,10 @@ TEST(Connection, testTeach)
 TEST(Connection, testSpike)
 {
     Neuron n;
-    EXPECT_EQ(0, n.synVal());
+    EXPECT_EQ(0, n.syn());
     Connection s(&n, 10);
     s.spike();
-    EXPECT_EQ(Connection(0, 10).weight(), n.synVal());
+    EXPECT_EQ(Connection(0, 10).weight(), n.syn());
 }
 
 TEST(Neuron, testConnectTo)
@@ -63,31 +63,31 @@ TEST(Neuron, testSpike)
 
     n1.spike();
     EXPECT_FALSE(n1.fired());
-    EXPECT_TRUE(n1.memVal() > 0);
+    EXPECT_TRUE(n1.mem() > 0);
 
     n1.tick(TIME_STEP);
     EXPECT_TRUE(n1.fired());
-    EXPECT_TRUE(n1.memVal() < 0);
+    EXPECT_TRUE(n1.mem() < 0);
 
     n1.tick(TIME_STEP);
     EXPECT_FALSE(n1.fired());
-    EXPECT_TRUE(n1.memVal() < 0);
+    EXPECT_TRUE(n1.mem() < 0);
 
     n1.spike();
-    EXPECT_TRUE(n1.memVal() > 0);
+    EXPECT_TRUE(n1.mem() > 0);
 
     n1.tick(TIME_STEP);
     EXPECT_TRUE(n1.fired());
-    EXPECT_TRUE(n1.memVal() < 0);
+    EXPECT_TRUE(n1.mem() < 0);
 }
 
 TEST(Neuron, testApply)
 {
     Neuron n;
-    EXPECT_EQ(0, n.synVal());
-    EXPECT_TRUE(n.memVal() < 0);
+    EXPECT_EQ(0, n.syn());
+    EXPECT_TRUE(n.mem() < 0);
     n.apply(100);
-    EXPECT_EQ(100, n.synVal());
+    EXPECT_EQ(100, n.syn());
 }
 
 TEST(Neuron, testApplyInTime)
@@ -99,9 +99,9 @@ TEST(Neuron, testApplyInTime)
     Neuron n(10, 1, 50);
 
     for (int t = 0; t < 1000; ++t) {
-        float mem = n.memVal();
+        float mem = n.mem();
         fn << t << "; " << mem << "; " << std::endl;
-        fns << ">" << t << " U=" << mem << " I="<< n.synVal() << std::endl;
+        fns << ">" << t << " U=" << mem << " I="<< n.syn() << std::endl;
 
         bool fired = n.tick(TIME_STEP);
         if (fired)
@@ -111,7 +111,7 @@ TEST(Neuron, testApplyInTime)
             n.apply(50);
 
         if (t == 48)
-            EXPECT_TRUE(n.memVal() > 0);
+            EXPECT_TRUE(n.mem() > 0);
 
         if (t == 49)
             EXPECT_TRUE(fired);
@@ -162,7 +162,7 @@ TEST(Neuron, testTeachNegative)
     n2.apply(50);
     int spiked = 0;
     for (int t = 0; t < 600; ++t) {
-        float mem = n2.memVal();
+        float mem = n2.mem();
         fn << t << "; " << mem << "; " << std::endl;
         n1.tick(TIME_STEP);
         if (n2.tick(TIME_STEP)) {
@@ -198,7 +198,7 @@ TEST(Neuron, testTeachPositive)
 
     int spiked = 0;
     for (int t = 0; t < 600; ++t) {
-        float mem = n2.memVal();
+        float mem = n2.mem();
         fn << t << "; " << mem << "; " << std::endl;
         n1.tick(TIME_STEP);
         if (n2.tick(TIME_STEP)) {
@@ -232,7 +232,7 @@ TEST(Neuron, testIncomingSpikes)
     fn.open("testIncomingSpikes.csv");
 
     for (int t = 0; t < 1000; ++t) {
-        float mem = n3.memVal();
+        float mem = n3.mem();
         fn << t << "; " << mem << "; " << std::endl;
         n1.tick(TIME_STEP);
         n2.tick(TIME_STEP);
@@ -351,15 +351,15 @@ TEST(Neuron, testAverageMembraneValue)
         for (int i = 0; i < neuronsCount; ++i) {
             if (neurons[i].tick(TIME_STEP) && t % 100)
                 spikeFound = true;
-            mean += neurons[i].memVal();
+            mean += neurons[i].mem();
         }
         mean /= neuronsCount;
         f << t  << "; " << mean << "; " << std::endl;
-        f0 << t << "; " << neurons[0].memVal() << "; " << std::endl;
-        f1 << t << "; " << neurons[1].memVal() << "; " << std::endl;
-        f2 << t << "; " << neurons[2].memVal() << "; " << std::endl;
-        f3 << t << "; " << neurons[3].memVal() << "; " << std::endl;
-        f4 << t << "; " << neurons[4].memVal() << "; " << std::endl;
+        f0 << t << "; " << neurons[0].mem() << "; " << std::endl;
+        f1 << t << "; " << neurons[1].mem() << "; " << std::endl;
+        f2 << t << "; " << neurons[2].mem() << "; " << std::endl;
+        f3 << t << "; " << neurons[3].mem() << "; " << std::endl;
+        f4 << t << "; " << neurons[4].mem() << "; " << std::endl;
     }
 
     EXPECT_TRUE(spikeFound);

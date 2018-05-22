@@ -9,7 +9,7 @@
 #include "Neuron.h"
 #include <cmath>
 #include <cstdlib>
-#include <time.h>       /* time */
+#include <time.h>
 #include <ctime>
 
 /// Threshold of membrane potential to make a spike.
@@ -154,12 +154,12 @@ const std::vector<Connection*>& Neuron::incomingSpikes() const
     return m_incomingSpikes;
 }
 
-float Neuron::synVal() const
+float Neuron::syn() const
 {
     return m_synI;
 }
 
-float Neuron::memVal() const
+float Neuron::mem() const
 {
     return m_prevMem;
 }
