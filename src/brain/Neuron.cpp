@@ -9,8 +9,7 @@
 #include "Neuron.h"
 #include <cmath>
 #include <cstdlib>
-#include <time.h>
-#include <ctime>
+#include <algorithm>
 
 /// Threshold of membrane potential to make a spike.
 const float kSpikeThreshold = 35.0f;
@@ -87,12 +86,12 @@ float Neuron::prevAdd() const
 
 bool Neuron::tick(float h)
 {
-    m_fired = m_prevMem > kSpikeThreshold;
+    bool fired = m_prevMem > kSpikeThreshold;
     if (m_prevMem > kMembraneAfterSpike)
         m_refractoryPeriod = true;
 
-    if (m_fired) {
-        m_firedPeriod = true;
+    if (fired) {
+        m_firing = true;
         m_curMem = kMembraneAfterSpike;
         m_curAdd = m_prevAdd + 100.0f;
         m_synI *= m_expireSpeedFired ? exp(-h / m_expireSpeedFired) : 0;
@@ -120,16 +119,19 @@ bool Neuron::tick(float h)
         }
 
         if (m_prevMem <= kDefaultMembrane)
-            m_firedPeriod = false;
+            m_firing = false;
 
-        if (!m_firedPeriod && m_prevMem > kDefaultMembrane)
+        if (!m_firing && m_prevMem > kDefaultMembrane)
             m_refractoryPeriod = false;
     }
 
     m_prevMem = m_curMem;
     m_prevAdd = m_curAdd;
 
-    return m_fired;
+    if (!m_refractoryPeriod && watchForSpiked())
+        spike();
+
+    return fired;
 }
 
 void Neuron::spike()
@@ -164,9 +166,9 @@ float Neuron::mem() const
     return m_prevMem;
 }
 
-bool Neuron::fired() const
+bool Neuron::firing() const
 {
-    return m_fired;
+    return m_firing;
 }
 
 const Connections& Neuron::connections() const
@@ -174,3 +176,28 @@ const Connections& Neuron::connections() const
     return m_connections;
 }
 
+void Neuron::watchFor(std::vector<Neuron*>& v)
+{
+    if (std::find(m_watchFor.begin(), m_watchFor.end(), v) != m_watchFor.end() || v.empty())
+        return;
+
+    m_watchFor.push_back(v);
+}
+
+bool Neuron::watchForSpiked() const
+{
+    for (auto &v : m_watchFor) {
+        bool spiked = !v.empty();
+        for (auto &n : v) {
+            if (!n->firing()) {
+                spiked = false;
+                break;
+            }
+        }
+
+        if (spiked)
+            return true;
+    }
+
+    return false;
+}

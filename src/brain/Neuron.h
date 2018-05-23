@@ -10,7 +10,6 @@
 #define NEURON
 
 #include <vector>
-#include <cstdio>
 
 class Neuron;
 
@@ -118,9 +117,9 @@ public:
     float syn() const;
 
     /**
-     * Checks if the neuron fired and handled axons.
+     * Checks if the neuron in firing state. All axons handled.
      */
-    bool fired() const;
+    bool firing() const;
 
     /**
      * Returns synapses of current neuron.
@@ -139,6 +138,13 @@ public:
      * Returns synapses that produced spike to this neuron.
      */
     const std::vector<Connection*>& incomingSpikes() const;
+
+    /**
+     *
+     */
+    void watchFor(std::vector<Neuron *>& v);
+
+    bool watchForSpiked() const;
 
 private:
 
@@ -180,11 +186,6 @@ private:
     float m_curMem;
 
     /**
-     * Defines if the neuron fired in current step.
-     */
-    bool m_fired = false;
-
-    /**
      * Synaptic current.
      */
     float m_synI = 0;
@@ -219,8 +220,12 @@ private:
      * Defines if the neuron has been fired
      * and membrane potential is fading down.
      */
-    bool m_firedPeriod = false;
+    bool m_firing = false;
 
+    /**
+     *
+     */
+    std::vector<std::vector<Neuron*>> m_watchFor;
 };
 
 #endif // NEURON

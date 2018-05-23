@@ -62,23 +62,31 @@ TEST(Neuron, testSpike)
     Neuron n1;
 
     n1.spike();
-    EXPECT_FALSE(n1.fired());
+    EXPECT_FALSE(n1.firing());
     EXPECT_TRUE(n1.mem() > 0);
 
-    n1.tick(TIME_STEP);
-    EXPECT_TRUE(n1.fired());
+    EXPECT_TRUE(n1.tick(TIME_STEP));
+    EXPECT_TRUE(n1.firing());
     EXPECT_TRUE(n1.mem() < 0);
 
-    n1.tick(TIME_STEP);
-    EXPECT_FALSE(n1.fired());
+    EXPECT_FALSE(n1.tick(TIME_STEP));
+    EXPECT_TRUE(n1.firing());
     EXPECT_TRUE(n1.mem() < 0);
 
     n1.spike();
     EXPECT_TRUE(n1.mem() > 0);
 
-    n1.tick(TIME_STEP);
-    EXPECT_TRUE(n1.fired());
+    EXPECT_TRUE(n1.tick(TIME_STEP));
+    EXPECT_TRUE(n1.firing());
     EXPECT_TRUE(n1.mem() < 0);
+
+    for (int i = 0; i < 6; ++i) {
+        EXPECT_FALSE(n1.tick(TIME_STEP));
+        EXPECT_TRUE(n1.firing());
+    }
+
+    EXPECT_FALSE(n1.tick(TIME_STEP));
+    EXPECT_FALSE(n1.firing());
 }
 
 TEST(Neuron, testApply)
@@ -146,7 +154,6 @@ TEST(Neuron, testApplyInTime)
         if (t > 650)
             EXPECT_FALSE(fired);
     }
-
 }
 
 TEST(Neuron, testTeachNegative)
@@ -293,9 +300,6 @@ TEST(Neuron, testIncomingSpikes)
     }
 }
 
-
-
-
 static float getRndExtI()
 {
     const float extIMax = 40.0f;
@@ -365,6 +369,44 @@ TEST(Neuron, testAverageMembraneValue)
     EXPECT_TRUE(spikeFound);
 }
 
-TEST(Neuron, testCube)
+TEST(Neuron, testWatchFor)
 {
+    Neuron n1, n2, n3;
+    std::vector<Neuron*> b1 = {&n2, &n3};
+    n1.watchFor(b1);
+
+    std::vector<Neuron*> b2 = {&n3};
+    n1.watchFor(b2);
+
+    EXPECT_FALSE(n1.watchForSpiked());
+
+    n1.tick(TIME_STEP);
+    EXPECT_FALSE(n1.watchForSpiked());
+
+    n2.tick(TIME_STEP);
+    n3.tick(TIME_STEP);
+    EXPECT_FALSE(n1.watchForSpiked());
+
+    n1.tick(TIME_STEP);
+    n2.spike();
+    EXPECT_TRUE(n2.tick(TIME_STEP));
+    n3.tick(TIME_STEP);
+    EXPECT_FALSE(n1.watchForSpiked());
+
+    for (int i = 0; i < 14; ++i) {
+        EXPECT_FALSE(n1.tick(TIME_STEP));
+        EXPECT_FALSE(n2.tick(TIME_STEP));
+        EXPECT_FALSE(n3.tick(TIME_STEP));
+    }
+
+    EXPECT_FALSE(n2.firing());
+    EXPECT_FALSE(n3.firing());
+
+    n2.spike();
+    n3.spike();
+
+    EXPECT_FALSE(n1.tick(TIME_STEP));
+    EXPECT_TRUE(n2.tick(TIME_STEP));
+    EXPECT_TRUE(n3.tick(TIME_STEP));
+    EXPECT_TRUE(n1.watchForSpiked());
 }
